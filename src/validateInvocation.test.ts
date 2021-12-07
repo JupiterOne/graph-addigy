@@ -1,5 +1,5 @@
 import {
-  IntegrationProviderAuthenticationError,
+  // IntegrationProviderAuthenticationError,
   IntegrationValidationError,
 } from '@jupiterone/integration-sdk-core';
 import {
@@ -18,24 +18,24 @@ it('requires valid config', async () => {
   );
 });
 
-it('auth error', async () => {
-  const recording = setupRecording({
-    directory: '__recordings__',
-    name: 'client-auth-error',
-  });
+// it('auth error', async () => {
+//   const recording = setupRecording({
+//     directory: '__recordings__',
+//     name: 'client-auth-error',
+//   });
 
-  recording.server.any().intercept((req, res) => {
-    res.status(401);
-  });
+//   recording.server.any().intercept((req, res) => {
+//     res.status(401);
+//   });
 
-  // const executionContext = createMockExecutionContext({
-  //   instanceConfig: {
-  //     clientId: 'INVALID',
-  //     clientSecret: 'INVALID',
-  //   },
-  // });
+//   // const executionContext = createMockExecutionContext({
+//   //   instanceConfig: {
+//   //     clientId: 'INVALID',
+//   //     clientSecret: 'INVALID',
+//   //   },
+//   // });
 
-  // await expect(validateInvocation(executionContext)).rejects.toThrow(
-  //   IntegrationProviderAuthenticationError,
-  // );
-});
+//   // await expect(validateInvocation(executionContext)).rejects.toThrow(
+//   //   IntegrationProviderAuthenticationError,
+//   // );
+// });
