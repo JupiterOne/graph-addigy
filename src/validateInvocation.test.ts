@@ -4,7 +4,7 @@ import {
 } from '@jupiterone/integration-sdk-core';
 import {
   createMockExecutionContext,
-  setupRecording,
+  // setupRecording,
 } from '@jupiterone/integration-sdk-testing';
 import { IntegrationConfig, validateInvocation } from './config';
 
