@@ -171,7 +171,7 @@ export interface Device {
 export interface Group {
   id: string;
   name: string;
-  users: Pick<User, id>[];
+  users?: Array<{ id: string; name: string }>;
 }
 
 // Those can be useful to a degree, but often theyre just full of optional

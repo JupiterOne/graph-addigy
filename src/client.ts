@@ -1,7 +1,6 @@
 import { IntegrationConfig } from './config';
 import { Device, User } from './types';
 import { Addigy } from 'addigy';
-import { AlertStatus } from './types';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -33,11 +32,12 @@ export class APIClient {
 
     // didn't work though sdk
     const authObject = await addigy.getAuthObject();
-    authObject.orgId = 'dbe4ca5c-7374-4246-a4a0-86a6dc501875';
-    authObject.authToken = 'd6b4c539-0f16-479a-9a90-15b2b7d5df81';
-    authObject.emailAddress = 'joao.pedro@contractor.jupiterone.com';
+    console.log(authObject);
+    // authObject.orgId = 'dbe4ca5c-7374-4246-a4a0-86a6dc501875';
+    // authObject.authToken = 'd6b4c539-0f16-479a-9a90-15b2b7d5df81';
+    // authObject.emailAddress = 'joao.pedro@contractor.jupiterone.com';
 
-    const users = await addigy.getUsers(authObject);
+    // const users = await addigy.getUsers(authObject);
   }
 
   /**
