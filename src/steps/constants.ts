@@ -8,11 +8,12 @@ export const Steps = {
   ACCOUNT: 'fetch-account',
   USERS: 'fetch-users',
   GROUPS: 'fetch-groups',
+  DEVICES: 'fetch-devices',
   GROUP_USER_RELATIONSHIPS: 'build-user-group-relationships',
 };
 
 export const Entities: Record<
-  'ACCOUNT' | 'GROUP' | 'USER',
+  'ACCOUNT' | 'GROUP' | 'USER' | 'DEVICE',
   StepEntityMetadata
 > = {
   ACCOUNT: {
@@ -27,8 +28,13 @@ export const Entities: Record<
   },
   USER: {
     resourceName: 'User',
-    _type: 'acme_user',
+    _type: 'addigy_user',
     _class: ['User'],
+  },
+  DEVICE: {
+    resourceName: 'Device',
+    _type: 'addigy_device',
+    _class: ['Device'],
   },
 };
 

@@ -8,7 +8,7 @@ import {
 
 import { createAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
-import { AcmeGroup } from '../../types';
+// import { AcmeGroup } from '../../types';
 import { ACCOUNT_ENTITY_KEY } from '../account';
 import { Entities, Steps, Relationships } from '../constants';
 import {

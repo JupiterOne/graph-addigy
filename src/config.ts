@@ -28,6 +28,12 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
     type: 'string',
     mask: true,
   },
+  adminUsername: {
+    type: 'string',
+  },
+  adminPassword: {
+    type: 'string',
+  },
 };
 
 /**
@@ -44,6 +50,12 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
    * The provider API client secret used to authenticate requests.
    */
   clientSecret: string;
+
+  /**
+   * User data that has owner role
+   */
+  adminUsername: string;
+  adminPassword: string;
 }
 
 export async function validateInvocation(
@@ -54,6 +66,13 @@ export async function validateInvocation(
   if (!config.clientId || !config.clientSecret) {
     throw new IntegrationValidationError(
       'Config requires all of {clientId, clientSecret}',
+    );
+  } else if (
+    (config.adminUsername && !config.adminPassword) ||
+    (!config.adminUsername && config.adminPassword)
+  ) {
+    throw new IntegrationValidationError(
+      'If you fill one of user fields, you must fill both.',
     );
   }
 
