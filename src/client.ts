@@ -1,9 +1,5 @@
-import http from 'http';
-
-import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
-
 import { IntegrationConfig } from './config';
-import { Device, Group, User } from './types';
+import { Device, User } from './types';
 import { Addigy } from 'addigy';
 import { AlertStatus } from './types';
 
@@ -18,6 +14,9 @@ export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
  * resources.
  */
 export class APIClient {
+  iterateGroups(arg0: (group: any) => Promise<void>) {
+    throw new Error('Method not implemented.');
+  }
   constructor(readonly config: IntegrationConfig) {}
 
   public async verifyAuthentication(): Promise<void> {
@@ -31,36 +30,14 @@ export class APIClient {
       adminUsername: 'joao.pedro@contractor.jupiterone.com',
       adminPassword: 'K$gD@S7n#5r@Zpm',
     });
-    // console.log("policies start");
-    const policies = await addigy.getPolicies();
-    // console.log(policies);
-    // console.log("policies end");
 
-    // console.log("devices start");
-    const devices = await addigy.getDevices();
-    // console.log(devices);
-    // console.log("devices end");
-
-    // console.log("onlineDevices start");
-    const onlineDevices = await addigy.getOnlineDevices();
-    // console.log(onlineDevices);
-    // console.log("onlineDevices end");
-
-    // console.log("alerts start");
-    const alerts = await addigy.getAlerts(AlertStatus.Unattended);
-    // console.log(alerts);
-    // console.log("alerts end");
     // didn't work though sdk
     const authObject = await addigy.getAuthObject();
     authObject.orgId = 'dbe4ca5c-7374-4246-a4a0-86a6dc501875';
     authObject.authToken = 'd6b4c539-0f16-479a-9a90-15b2b7d5df81';
     authObject.emailAddress = 'joao.pedro@contractor.jupiterone.com';
 
-    // console.log(authObject);
-
     const users = await addigy.getUsers(authObject);
-
-    // console.log(users);
   }
 
   /**

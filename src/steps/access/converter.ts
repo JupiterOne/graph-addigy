@@ -5,11 +5,11 @@ import {
   RelationshipClass,
   Relationship,
 } from '@jupiterone/integration-sdk-core';
+import { Group, User } from '../../types';
 
 import { Entities } from '../constants';
-import { AcmeGroup, AcmeUser } from '../../types';
 
-export function createUserEntity(user: AcmeUser): Entity {
+export function createUserEntity(user: User): Entity {
   return createIntegrationEntity({
     entityData: {
       source: user,
@@ -26,7 +26,7 @@ export function createUserEntity(user: AcmeUser): Entity {
   });
 }
 
-export function createGroupEntity(group: AcmeGroup): Entity {
+export function createGroupEntity(group: Group): Entity {
   return createIntegrationEntity({
     entityData: {
       source: group,

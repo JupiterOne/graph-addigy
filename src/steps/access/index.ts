@@ -8,6 +8,7 @@ import {
 
 import { createAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
+import { Group } from '../../types';
 // import { AcmeGroup } from '../../types';
 import { ACCOUNT_ENTITY_KEY } from '../account';
 import { Entities, Steps, Relationships } from '../constants';
@@ -43,7 +44,7 @@ export async function fetchGroups({
 
   const accountEntity = (await jobState.getData(ACCOUNT_ENTITY_KEY)) as Entity;
 
-  await apiClient.iterateGroups(async (group) => {
+  apiClient.iterateGroups(async (group) => {
     const groupEntity = await jobState.addEntity(createGroupEntity(group));
     await jobState.addRelationship(
       createAccountGroupRelationship(accountEntity, groupEntity),
@@ -58,7 +59,7 @@ export async function buildGroupUserRelationships({
   await jobState.iterateEntities(
     { _type: Entities.GROUP._type },
     async (groupEntity) => {
-      const group = getRawData<AcmeGroup>(groupEntity);
+      const group = getRawData<Group>(groupEntity);
 
       if (!group) {
         logger.warn(

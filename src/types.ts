@@ -1,7 +1,5 @@
 // Providers often supply types with their API libraries.
 
-import { Entity } from '@jupiterone/integration-sdk-core';
-
 export enum AlertStatus {
   Acknowledged = 'Acknowledged',
   Resolved = 'Resolved',
@@ -173,7 +171,7 @@ export interface Device {
 export interface Group {
   id: string;
   name: string;
-  users?: Pick<User, id>[];
+  users: Pick<User, id>[];
 }
 
 // Those can be useful to a degree, but often theyre just full of optional

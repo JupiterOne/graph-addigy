@@ -6,7 +6,7 @@ import { createAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
 
 import { Entities, Steps } from '../constants';
-import { createUserEntity } from './converter';
+// import { createUserEntity } from './converter';
 
 export async function fetchUsers({
   instance,
@@ -15,8 +15,7 @@ export async function fetchUsers({
   const apiClient = createAPIClient(instance.config);
 
   await apiClient.iterateUsers(async (user) => {
-    const userEntity = await jobState.addEntity(createUserEntity(user));
-
+    // const userEntity = await jobState.addEntity(createUserEntity(user));
     // create relationships
     // if(user.id){
     //   const userId = user.id;

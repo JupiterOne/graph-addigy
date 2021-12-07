@@ -6,7 +6,7 @@ import { createAPIClient } from '../../client';
 import { IntegrationConfig } from '../../config';
 
 import { Entities, Steps } from '../constants';
-import { createDeviceEntity } from './converter';
+// import { createDeviceEntity } from './converter';
 
 export async function fetchDevices({
   instance,
@@ -15,8 +15,7 @@ export async function fetchDevices({
   const apiClient = createAPIClient(instance.config);
 
   await apiClient.iterateDevices(async (device) => {
-    const deviceEntity = await jobState.addEntity(createDeviceEntity(device));
-
+    // const deviceEntity = await jobState.addEntity(createDeviceEntity(device));
     // create relationships
   });
 }
