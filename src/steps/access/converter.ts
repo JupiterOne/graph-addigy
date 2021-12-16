@@ -5,7 +5,7 @@ import {
   RelationshipClass,
   Relationship,
 } from '@jupiterone/integration-sdk-core';
-import { Group, User } from '../../types';
+import { Group, User } from '../../addigy/types';
 
 import { Entities } from '../constants';
 

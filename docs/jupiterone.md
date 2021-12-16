@@ -99,7 +99,16 @@ The following entities are created:
 | Resources     | Entity `_type`  | Entity `_class` |
 | ------------- | --------------- | --------------- |
 | Addigy Device | `addigy_device` | `Device`        |
-| Addigy User   | `addigy_user`   | `User`          |
+| Addigy Policy | `addigy_policy` | `Policy`        |
+| Addigy Users  | `addigy_user`   | `User`          |
+
+### Relationships
+
+The following relationships are created:
+
+| Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
+| --------------------- | --------------------- | --------------------- |
+| `addigy_device`       | **HAS**               | `addigy_policy`       |
 
 <!--
 ********************************************************************************

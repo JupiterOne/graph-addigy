@@ -9,11 +9,12 @@ export const Steps = {
   USERS: 'fetch-users',
   GROUPS: 'fetch-groups',
   DEVICES: 'fetch-devices',
+  POLICIES: 'fetch-policies',
   GROUP_USER_RELATIONSHIPS: 'build-user-group-relationships',
 };
 
 export const Entities: Record<
-  'ACCOUNT' | 'GROUP' | 'USER' | 'DEVICE',
+  'ACCOUNT' | 'GROUP' | 'USER' | 'DEVICE' | 'POLICY',
   StepEntityMetadata
 > = {
   ACCOUNT: {
@@ -36,12 +37,27 @@ export const Entities: Record<
     _type: 'addigy_device',
     _class: ['Device'],
   },
+  POLICY: {
+    resourceName: 'Policy',
+    _type: 'addigy_policy',
+    _class: ['Policy'],
+  },
 };
 
 export const Relationships: Record<
-  'ACCOUNT_HAS_USER' | 'ACCOUNT_HAS_GROUP' | 'GROUP_HAS_USER',
+  | 'ACCOUNT_HAS_USER'
+  | 'ACCOUNT_HAS_GROUP'
+  | 'GROUP_HAS_USER'
+  | 'DEVICE_HAS_POLICY',
   StepRelationshipMetadata
 > = {
+  DEVICE_HAS_POLICY: {
+    _type: 'addigy_device_has_policy',
+    sourceType: Entities.DEVICE._type,
+    _class: RelationshipClass.HAS,
+    targetType: Entities.POLICY._type,
+  },
+
   ACCOUNT_HAS_USER: {
     _type: 'acme_account_has_user',
     sourceType: Entities.ACCOUNT._type,

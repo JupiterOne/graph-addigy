@@ -2,7 +2,7 @@ import {
   createIntegrationEntity,
   Entity,
 } from '@jupiterone/integration-sdk-core';
-import { User } from '../../types';
+import { User } from '../../addigy/types';
 import { Entities } from '../constants';
 
 export function createUserEntity(user: User): Entity {

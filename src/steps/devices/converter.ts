@@ -2,7 +2,7 @@ import {
   createIntegrationEntity,
   Entity,
 } from '@jupiterone/integration-sdk-core';
-import { Device } from '../../types';
+import { Device } from '../../addigy/types';
 import { Entities } from '../constants';
 
 export function createDeviceEntity(device: Device): Entity {
@@ -13,14 +13,15 @@ export function createDeviceEntity(device: Device): Entity {
         _key: device.agentid,
         _type: Entities.DEVICE._type,
         _class: Entities.DEVICE._class,
-        id: device.serial_number,
-        name: device.deviceName || '',
-        user: device.currentUser,
-        displayName: device.deviceName || '',
-        category: device.deviceModelName || '',
+        id: device['Serial Number'],
+        name: device['Device Name'] || '',
+        user: device['Current User'] || '',
+        displayName: device['Device Name'] || '',
+        category: device['Device Model Name'] || '',
         make: 'Apple',
-        model: device.hardwareModel || '',
-        serial: device.serial_number || '',
+        model: device['Hardware Model'] || '',
+        serial: device['Serial Number'] || '',
+        policyId: device['policy_id'] || '',
       },
     },
   });

@@ -6,9 +6,9 @@ import {
   getRawData,
 } from '@jupiterone/integration-sdk-core';
 
-import { createAPIClient } from '../../client';
+import { createAPIClient } from '../../addigy/client';
 import { IntegrationConfig } from '../../config';
-import { Group } from '../../types';
+import { Group } from '../../addigy/types';
 // import { AcmeGroup } from '../../types';
 import { ACCOUNT_ENTITY_KEY } from '../account';
 import { Entities, Steps, Relationships } from '../constants';

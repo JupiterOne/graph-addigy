@@ -1,6 +1,7 @@
 import { devicesSteps } from './devices';
+import { policiesSteps } from './policy';
 import { userSteps } from './user';
 
-const integrationSteps = [...devicesSteps, ...userSteps];
+const integrationSteps = [...policiesSteps, ...devicesSteps, ...userSteps];
 
 export { integrationSteps };

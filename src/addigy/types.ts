@@ -17,6 +17,16 @@ export interface User {
   scopes: [];
 }
 
+export interface Policy {
+  creationTime: number;
+  name: string;
+  parent: string;
+  downloadPath: string;
+  policyId: string;
+  color: string;
+  orgid: string;
+  icon: string;
+}
 export interface Device {
   serial_number: string;
   iMEI: string;
@@ -174,15 +184,33 @@ export interface Group {
   users?: Array<{ id: string; name: string }>;
 }
 
-// Those can be useful to a degree, but often theyre just full of optional
-// values. Understanding the response data may be more reliably accomplished by
-// reviewing the API response recordings produced by testing the wrapper client
-// (./client.ts). However, when there are no types provided, it is necessary to define
-// opaque types for each resource, to communicate the records that are expected
-// to come from an endpoint and are provided to iterating functions.
+export interface IAddigyConfig {
+  /** the API credentials from Addigy */
+  clientId: string;
+  clientSecret: string;
+  /** user account credentials with owner/power user role */
+  adminUsername?: string;
+  adminPassword?: string;
+}
 
-/*
-import { Opaque } from type-fest;
-export type AcmeUser = Opaque<any, AcmeUser>;
-export type AcmeGroup = Opaque<any, AcmeGroup>;
-*/
+export interface IAddigyInternalAuthObject {
+  orgId: string;
+  authToken: string;
+  emailAddress: string;
+}
+
+export interface Payload {
+  addigy_payload_type:
+    | 'com.addigy.syspolicy.system-extension-policy.com.apple.system-extension-policy'
+    | 'com.addigy.TCC.configuration-profile-policy.com.apple.TCC.configuration-profile-policy'
+    | 'com.addigy.syspolicy.kernel-extension-policy.com.apple.syspolicy.kernel-extension-policy';
+  payload_type:
+    | 'com.apple.system-extension-policy'
+    | 'com.apple.syspolicy.kernel-extension-policy'
+    | 'com.apple.TCC.configuration-profile-policy';
+  payload_version: number;
+  payload_identifier: string;
+  payload_uuid: string;
+  payload_group_id: string;
+  payload_display_name: string;
+}
