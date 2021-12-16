@@ -1,11 +1,7 @@
 /* eslint-disable no-useless-catch */
 import { Device, IAddigyInternalAuthObject, Policy } from './types';
-import {
-  IntegrationLogger,
-  IntegrationProviderAPIError,
-} from '@jupiterone/integration-sdk-core';
+import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
 import fetch, { RequestInit, Response, FetchError } from 'node-fetch';
-import { IntegrationProviderPermanentAPIError } from '../util/error';
 import got from 'got';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
@@ -39,11 +35,11 @@ type RequestFunction = (
   options?: RequestInit | undefined,
 ) => Promise<Response>;
 
-const noRetryStatusCodes: number[] = [400, 401, 403, 404, 413];
+// const noRetryStatusCodes: number[] = [400, 401, 403, 404, 413];
 
-function isSuccessfulStatusCode(status: number) {
-  return status >= 200 && status < 400;
-}
+// function isSuccessfulStatusCode(status: number) {
+//   return status >= 200 && status < 400;
+// }
 
 // async function request(
 //   requestFn: RequestFunction,
@@ -113,8 +109,8 @@ export class AddigyClient {
     this.clientSecret = options.clientSecret;
     this.adminUsername = options.adminUsername;
     this.adminPassword = options.adminPassword;
-    this.request = options.request || fetch;
-    this.onApiRequestError = options.onApiRequestError;
+    // this.request = options.request || fetch;
+    // this.onApiRequestError = options.onApiRequestError;
     this.reqHeaders = {
       'Content-Type': 'application/json',
       accept: 'application/json',
