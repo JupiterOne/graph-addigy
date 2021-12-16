@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 import { Device, IAddigyInternalAuthObject, Policy } from './types';
 import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
-import fetch, { RequestInit, Response, FetchError } from 'node-fetch';
+import { RequestInit, Response, FetchError } from 'node-fetch';
 import got from 'got';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
