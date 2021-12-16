@@ -1,18 +1,12 @@
 /* eslint-disable no-useless-catch */
-import { IntegrationConfig } from '../config';
-import { Device, IAddigyInternalAuthObject, Policy, User } from './types';
-import { Addigy } from 'addigy';
+import { Device, IAddigyInternalAuthObject, Policy } from './types';
 import {
   IntegrationLogger,
   IntegrationProviderAPIError,
 } from '@jupiterone/integration-sdk-core';
 import fetch, { RequestInit, Response, FetchError } from 'node-fetch';
-import { retry } from '@lifeomic/attempt';
-import PQueue from 'p-queue';
-import { URL } from 'url';
 import { IntegrationProviderPermanentAPIError } from '../util/error';
 import got from 'got';
-import { v4 as uuidv4 } from 'uuid';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -45,38 +39,37 @@ type RequestFunction = (
   options?: RequestInit | undefined,
 ) => Promise<Response>;
 
-const defaultApiTimeoutMs = 60000; // 1 minute
 const noRetryStatusCodes: number[] = [400, 401, 403, 404, 413];
 
 function isSuccessfulStatusCode(status: number) {
   return status >= 200 && status < 400;
 }
 
-async function request(
-  requestFn: RequestFunction,
-  url: string,
-  options?: RequestInit | undefined,
-): Promise<Response> {
-  const response = await requestFn(url, options);
+// async function request(
+//   requestFn: RequestFunction,
+//   url: string,
+//   options?: RequestInit | undefined,
+// ): Promise<Response> {
+//   const response = await requestFn(url, options);
 
-  if (isSuccessfulStatusCode(response.status)) {
-    return response;
-  }
+//   if (isSuccessfulStatusCode(response.status)) {
+//     return response;
+//   }
 
-  if (noRetryStatusCodes.includes(response.status)) {
-    throw new IntegrationProviderPermanentAPIError({
-      endpoint: url,
-      statusText: 'Received non-retryable status code in API response',
-      status: response.status,
-    });
-  }
+//   if (noRetryStatusCodes.includes(response.status)) {
+//     throw new IntegrationProviderPermanentAPIError({
+//       endpoint: url,
+//       statusText: 'Received non-retryable status code in API response',
+//       status: response.status,
+//     });
+//   }
 
-  throw new IntegrationProviderAPIError({
-    endpoint: url,
-    statusText: response.statusText,
-    status: response.status,
-  });
-}
+//   throw new IntegrationProviderAPIError({
+//     endpoint: url,
+//     statusText: response.statusText,
+//     status: response.status,
+//   });
+// }
 
 export function createAPIClient({
   host,
@@ -107,12 +100,12 @@ export class AddigyClient {
   private readonly clientSecret: string;
   private readonly adminUsername: string;
   private readonly adminPassword: string;
-  private readonly request: RequestFunction;
+  // private readonly request: RequestFunction;
   reqHeaders: any;
 
-  private readonly onApiRequestError:
-    | ((params: OnApiRequestErrorParams) => void)
-    | undefined;
+  // private readonly onApiRequestError:
+  //   | ((params: OnApiRequestErrorParams) => void)
+  //   | undefined;
 
   constructor(options: CreateAddigyClientParams) {
     this.host = options.host;
@@ -201,15 +194,6 @@ export class AddigyClient {
       throw err;
     }
   }
-
-  // public async iterateDevices(
-  //   iteratee: ResourceIteratee<Device>,
-  // ): Promise<void> {
-  //   const devices = await this.fetchDevices() as Device[];
-  //   for (const device of devices) {
-  //     await iteratee(device);
-  //   }
-  // }
 
   private async _addigyRequest(url: string, options: any): Promise<any> {
     try {

@@ -15,4 +15,5 @@ export const integrationConfig: IntegrationConfig = {
   clientSecret: process.env.CLIENT_SECRET || DEFAULT_CLIENT_SECRET,
   adminUsername: '',
   adminPassword: '',
+  host: '',
 };
