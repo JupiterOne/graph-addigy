@@ -13,9 +13,7 @@ import {
   IntegrationLogger,
   IntegrationProviderAPIError,
 } from '@jupiterone/integration-sdk-core';
-import fetch, { RequestInit, Response, FetchError, BodyInit } from 'node-fetch';
-// import { post } from 'got';
-import got from 'got';
+import fetch, { RequestInit, Response, FetchError } from 'node-fetch';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -109,7 +107,7 @@ async function request(
 
 export class AddigyClient {
   private readonly queue: PQueue;
-  private readonly host: string;
+  // private readonly host: string;
   private readonly clientId: string;
   private readonly clientSecret: string;
   private readonly adminUsername: string;
