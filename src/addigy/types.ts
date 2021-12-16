@@ -5,6 +5,10 @@ export enum AlertStatus {
   Resolved = 'Resolved',
   Unattended = 'Unattended',
 }
+
+export interface AccountResponse {
+  users: User[];
+}
 export interface User {
   id: string;
   uid: string;
@@ -15,6 +19,11 @@ export interface User {
   addigy_role: string;
   policies: string[];
   scopes: [];
+}
+
+export enum Method {
+  GET = 'get',
+  POST = 'post',
 }
 
 export interface Policy {
@@ -195,7 +204,7 @@ export interface IAddigyConfig {
 
 export interface IAddigyInternalAuthObject {
   orgId: string;
-  authToken: string;
+  authtoken: string;
   emailAddress: string;
 }
 

@@ -20,9 +20,8 @@ async function iterateUsers(
   iteratee: ResourceIteratee<User>,
 ): Promise<void> {
   const authObject = await client.getAuthObject();
-  await new Promise((f) => setTimeout(f, 15000));
   console.log('---------------------------- authObject', authObject);
-  const users = (await client.fetchUsers(authObject)) as User[];
+  const users = await client.fetchUsers(authObject);
   for (const user of users) {
     await iteratee(user);
   }
