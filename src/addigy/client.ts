@@ -107,7 +107,6 @@ async function request(
 
 export class AddigyClient {
   private readonly queue: PQueue;
-  // private readonly host: string;
   private readonly clientId: string;
   private readonly clientSecret: string;
   private readonly adminUsername: string;
@@ -119,7 +118,6 @@ export class AddigyClient {
     | undefined;
 
   constructor(options: CreateAddigyClientParams) {
-    // this.host = options.host;
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
     this.adminUsername = options.adminUsername;
@@ -175,7 +173,6 @@ export class AddigyClient {
       options.body = JSON.stringify(body);
     }
 
-    console.log({ options });
     const domain = url ? url : 'https://prod.addigy.com/';
     const fullUrl = domain + path; //this.getResourceUrl(path);
 

@@ -40,8 +40,9 @@ export async function fetchPolicies({
     logger,
   });
   await iteratePolicies(client, logger, async (policy) => {
-    const policyEntity = await jobState.addEntity(createPolicyEntity(policy));
-    console.log(policyEntity);
+    // to be used later:
+    // const policyEntity = await jobState.addEntity(createPolicyEntity(policy));
+    await jobState.addEntity(createPolicyEntity(policy));
   });
 }
 

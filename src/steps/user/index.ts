@@ -20,7 +20,6 @@ async function iterateUsers(
   iteratee: ResourceIteratee<User>,
 ): Promise<void> {
   const authObject = await client.getAuthObject();
-  console.log('---------------------------- authObject', authObject);
   const users = await client.fetchUsers(authObject);
   for (const user of users) {
     await iteratee(user);
@@ -42,8 +41,9 @@ export async function fetchUsers({
     logger,
   });
   await iterateUsers(client, logger, async (user) => {
-    const userEntity = await jobState.addEntity(createUserEntity(user));
-    console.log(userEntity);
+    // to be used later:
+    // const userEntity = await jobState.addEntity(createUserEntity(user));
+    await jobState.addEntity(createUserEntity(user));
   });
 }
 
