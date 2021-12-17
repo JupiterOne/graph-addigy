@@ -119,7 +119,7 @@ export class AddigyClient {
     | undefined;
 
   constructor(options: CreateAddigyClientParams) {
-    this.host = options.host;
+    // this.host = options.host;
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
     this.adminUsername = options.adminUsername;
