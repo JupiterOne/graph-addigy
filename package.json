@@ -34,6 +34,12 @@
   "devDependencies": {
     "@jupiterone/integration-sdk-core": "^7.4.0",
     "@jupiterone/integration-sdk-dev-tools": "^7.4.0",
-    "@jupiterone/integration-sdk-testing": "^7.4.0"
+    "@jupiterone/integration-sdk-testing": "^7.4.0",
+    "@types/node-fetch": "^2.5.12"
+  },
+  "dependencies": {
+    "@lifeomic/attempt": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "p-queue": "^6.6.2"
   }
 }

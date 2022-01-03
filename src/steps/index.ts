@@ -1,6 +1,7 @@
-import { accountSteps } from './account';
-import { accessSteps } from './access';
+import { devicesSteps } from './devices';
+import { policiesSteps } from './policy';
+import { userSteps } from './user';
 
-const integrationSteps = [...accountSteps, ...accessSteps];
+const integrationSteps = [...policiesSteps, ...devicesSteps, ...userSteps];
 
 export { integrationSteps };
