@@ -18,9 +18,6 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
     type: 'string',
     mask: true,
   },
-  host: {
-    type: 'string',
-  },
 };
 
 /**
@@ -35,5 +32,4 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
    */
   adminUsername: string;
   adminPassword: string;
-  host: string;
 }

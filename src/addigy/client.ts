@@ -9,13 +9,8 @@ import {
 } from './types';
 import PQueue from 'p-queue';
 import { retry } from '@lifeomic/attempt';
-import {
-  IntegrationLogger,
-  IntegrationProviderAPIError,
-} from '@jupiterone/integration-sdk-core';
+import { IntegrationProviderAPIError } from '@jupiterone/integration-sdk-core';
 import fetch, { RequestInit, Response, FetchError } from 'node-fetch';
-
-export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
 const defaultApiTimeoutMs = 60000; // 1 minute
 
@@ -33,44 +28,12 @@ type RequestFunction = (
 ) => Promise<Response>;
 
 interface CreateAddigyClientParams {
-  host: string;
   clientId: string;
   clientSecret: string;
   adminUsername: string;
   adminPassword: string;
   request?: RequestFunction;
   onApiRequestError?: (params: OnApiRequestErrorParams) => void;
-}
-
-interface CreateAddigyClientHelperParams {
-  clientId: string;
-  clientSecret: string;
-  adminUsername: string;
-  adminPassword: string;
-  host: string;
-  logger: IntegrationLogger;
-}
-
-export function createAPIClient({
-  host,
-  clientId,
-  clientSecret,
-  adminUsername,
-  adminPassword,
-  logger,
-}: CreateAddigyClientHelperParams) {
-  const client = new AddigyClient({
-    host,
-    clientId,
-    clientSecret,
-    adminUsername,
-    adminPassword,
-    onApiRequestError(requestError) {
-      logger.info(requestError, 'Error making API requests (will retry)');
-    },
-  });
-
-  return client;
 }
 
 const noRetryStatusCodes: number[] = [400, 401, 403, 404, 413];
@@ -173,8 +136,8 @@ export class AddigyClient {
       options.body = JSON.stringify(body);
     }
 
-    const domain = url ? url : 'https://prod.addigy.com/';
-    const fullUrl = domain + path; //this.getResourceUrl(path);
+    const domain = url || 'https://prod.addigy.com/';
+    const fullUrl = domain + path;
 
     // The goal here is to retry and ensure the final error includes information
     // about the host we could not connect to, since users define the host and

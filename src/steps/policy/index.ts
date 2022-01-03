@@ -1,45 +1,20 @@
 import {
-  IntegrationLogger,
   IntegrationStep,
   IntegrationStepExecutionContext,
 } from '@jupiterone/integration-sdk-core';
-import {
-  AddigyClient,
-  createAPIClient,
-  ResourceIteratee,
-} from '../../addigy/client';
-import { Policy } from '../../addigy/types';
 import { IntegrationConfig } from '../../config';
 
 import { Entities, Steps } from '../constants';
 import { createPolicyEntity } from './converter';
-
-async function iteratePolicies(
-  client: AddigyClient,
-  logger: IntegrationLogger,
-  iteratee: ResourceIteratee<Policy>,
-): Promise<void> {
-  const policies = await client.fetchPolicies();
-  for (const policy of policies) {
-    await iteratee(policy);
-  }
-}
+import { createAPIClient } from '../../client';
 
 export async function fetchPolicies({
   instance,
   jobState,
-  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
-  const { config } = instance;
-  const client = createAPIClient({
-    host: config.host,
-    clientId: config.clientId,
-    clientSecret: config.clientSecret,
-    adminUsername: config.adminUsername,
-    adminPassword: config.adminPassword,
-    logger,
-  });
-  await iteratePolicies(client, logger, async (policy) => {
+  const apiClient = createAPIClient(instance.config);
+
+  await apiClient.iteratePolicies(async (policy) => {
     // to be used later:
     // const policyEntity = await jobState.addEntity(createPolicyEntity(policy));
     await jobState.addEntity(createPolicyEntity(policy));
