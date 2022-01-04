@@ -15,7 +15,7 @@ export function createDeviceEntity(device: Device): Entity {
         _class: Entities.DEVICE._class,
         id: device['Serial Number'],
         name: device['Device Name'],
-        user: device['Current User'],
+        user: device['Current User'], // TODO: see if this can map to a User|Person Entity
         displayName: device['Device Name'],
         category: device['Device Model Name'],
         make: 'Apple',

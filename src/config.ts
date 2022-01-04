@@ -6,6 +6,7 @@ import {
 } from '@jupiterone/integration-sdk-core';
 
 import { AddigyClient } from './addigy/client';
+import { createAPIClient } from './client';
 
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
   clientId: {
@@ -42,7 +43,7 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
 export async function validateInvocation(
   context: IntegrationExecutionContext<IntegrationConfig>,
 ) {
-  const { instance, logger } = context;
+  const { instance } = context;
   const { config } = instance;
 
   if (
@@ -56,18 +57,6 @@ export async function validateInvocation(
     );
   }
 
-  const client = new AddigyClient({
-    clientId: config.clientId,
-    clientSecret: config.clientSecret,
-    adminUsername: config.adminUsername,
-    adminPassword: config.adminPassword,
-  });
-
-  try {
-    await client.fetchPolicies();
-  } catch (err) {
-    throw new IntegrationValidationError(
-      `Failed to authenticate with the addigy API: ${err.message}`,
-    );
-  }
+  const apiClient = createAPIClient(config);
+  await apiClient.verifyAuthentication();
 }

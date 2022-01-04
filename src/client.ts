@@ -1,3 +1,4 @@
+import { IntegrationValidationError } from '@jupiterone/integration-sdk-core';
 import {
   AddigyClient,
   // createAddigyClient,
@@ -40,9 +41,15 @@ export class APIClient {
     });
   }
 
-  //   public async verifyAuthentication(): Promise<void> {
-
-  //   }
+  public async verifyAuthentication(): Promise<void> {
+    try {
+      await this.client.fetchPolicies();
+    } catch (err) {
+      throw new IntegrationValidationError(
+        `Failed to authenticate with the addigy API: ${err.message}`,
+      );
+    }
+  }
 
   /**
    * Iterates each user resource in the provider.
