@@ -14,7 +14,6 @@ import { createAPIClient } from '../../client';
 export async function fetchDevices({
   instance,
   jobState,
-  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
 

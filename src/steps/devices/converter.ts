@@ -23,6 +23,8 @@ export function createHostAgentEntity(device: Device): Entity {
         serial: device['Serial Number'],
         policyId: device['policy_id'],
         function: ['endpoint-protection'],
+        appleSilicon: device['Is Apple Silicon'],
+        systemVersion: device['System Version'],
       },
     },
   });

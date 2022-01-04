@@ -5,12 +5,9 @@ import {
 } from '@jupiterone/integration-sdk-core';
 
 export const Steps = {
-  ACCOUNT: 'fetch-account',
   USERS: 'fetch-users',
-  GROUPS: 'fetch-groups',
   DEVICES: 'fetch-devices',
   POLICIES: 'fetch-policies',
-  GROUP_USER_RELATIONSHIPS: 'build-user-group-relationships',
 };
 
 export const Entities: Record<
@@ -23,7 +20,7 @@ export const Entities: Record<
     _class: ['User'],
   },
   HOST_AGENT: {
-    resourceName: 'Device',
+    resourceName: 'Addigy Device',
     _type: 'addigy_hostagent',
     _class: ['HostAgent'],
   },
