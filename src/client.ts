@@ -24,7 +24,7 @@ export class APIClient {
   client: AddigyClient;
 
   /**
-   * Set up the connection to Salesforce with oauth info
+   * Set up the Addigy client
    */
   setUpClient(): void {
     this.client = new AddigyClient({
