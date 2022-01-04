@@ -96,11 +96,11 @@ https://github.com/JupiterOne/sdk/blob/main/docs/integrations/development.md
 
 The following entities are created:
 
-| Resources     | Entity `_type`  | Entity `_class` |
-| ------------- | --------------- | --------------- |
-| Addigy Device | `addigy_device` | `Device`        |
-| Addigy Policy | `addigy_policy` | `Policy`        |
-| Addigy Users  | `addigy_user`   | `User`          |
+| Resources     | Entity `_type`     | Entity `_class` |
+| ------------- | ------------------ | --------------- |
+| Addigy Policy | `addigy_policy`    | `Policy`        |
+| Addigy Users  | `addigy_user`      | `User`          |
+| Device        | `addigy_hostagent` | `HostAgent`     |
 
 ### Relationships
 
@@ -108,7 +108,7 @@ The following relationships are created:
 
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
-| `addigy_device`       | **HAS**               | `addigy_policy`       |
+| `addigy_hostagent`    | **HAS**               | `addigy_policy`       |
 
 <!--
 ********************************************************************************

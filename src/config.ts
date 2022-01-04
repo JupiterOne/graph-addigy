@@ -1,7 +1,11 @@
 import {
   IntegrationInstanceConfigFieldMap,
   IntegrationInstanceConfig,
+  IntegrationExecutionContext,
+  IntegrationValidationError,
 } from '@jupiterone/integration-sdk-core';
+
+import { createAPIClient } from './client';
 
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
   clientId: {
@@ -18,9 +22,6 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
     type: 'string',
     mask: true,
   },
-  host: {
-    type: 'string',
-  },
 };
 
 /**
@@ -32,8 +33,29 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
   clientSecret: string;
   /**
    * User data that has owner role
+   * Used to hit internal API endpoint
    */
   adminUsername: string;
   adminPassword: string;
-  host: string;
+}
+
+export async function validateInvocation(
+  context: IntegrationExecutionContext<IntegrationConfig>,
+) {
+  const { instance } = context;
+  const { config } = instance;
+
+  if (
+    !config.adminPassword ||
+    !config.adminUsername ||
+    !config.clientId ||
+    !config.clientSecret
+  ) {
+    throw new IntegrationValidationError(
+      'Config requires all of {adminPassword, adminUsername, clientId, clientSecret}',
+    );
+  }
+
+  const apiClient = createAPIClient(config);
+  await apiClient.verifyAuthentication();
 }
