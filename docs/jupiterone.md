@@ -110,6 +110,14 @@ The following relationships are created:
 | --------------------- | --------------------- | --------------------- |
 | `addigy_hostagent`    | **HAS**               | `addigy_policy`       |
 
+### Mapped Relationships
+
+The following mapped relationships are created:
+
+| Source Entity `_type` | Relationship `_class` | Target Entity `_type` | Direction |
+| --------------------- | --------------------- | --------------------- | --------- |
+| `addigy_hostagent`    | **PROTECTS**          | `*user_endpoint*`     | FORWARD   |
+
 <!--
 ********************************************************************************
 END OF GENERATED DOCUMENTATION AFTER BELOW MARKER

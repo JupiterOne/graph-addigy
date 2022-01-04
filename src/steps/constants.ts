@@ -1,6 +1,8 @@
 import {
   RelationshipClass,
+  RelationshipDirection,
   StepEntityMetadata,
+  StepMappedRelationshipMetadata,
   StepRelationshipMetadata,
 } from '@jupiterone/integration-sdk-core';
 
@@ -40,5 +42,18 @@ export const Relationships: Record<
     sourceType: Entities.HOST_AGENT._type,
     _class: RelationshipClass.HAS,
     targetType: Entities.POLICY._type,
+  },
+};
+
+export const MappedRelationships: Record<
+  'HOST_AGENT_PROTECTS_ENDPOINT',
+  StepMappedRelationshipMetadata
+> = {
+  HOST_AGENT_PROTECTS_ENDPOINT: {
+    _type: 'addigy_hostagent_protects_user_endpoint',
+    sourceType: Entities.HOST_AGENT._type,
+    _class: RelationshipClass.PROTECTS,
+    targetType: 'user_endpoint',
+    direction: RelationshipDirection.FORWARD,
   },
 };
