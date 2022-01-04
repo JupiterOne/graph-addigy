@@ -8,7 +8,7 @@ import {
 import { IntegrationConfig } from '../../config';
 
 import { Entities, Relationships, Steps } from '../constants';
-import { createDeviceEntity } from './converter';
+import { createHostAgentEntity } from './converter';
 import { createAPIClient } from '../../client';
 
 export async function fetchDevices({
@@ -19,7 +19,9 @@ export async function fetchDevices({
   const apiClient = createAPIClient(instance.config);
 
   await apiClient.iterateDevices(async (device) => {
-    const deviceEntity = await jobState.addEntity(createDeviceEntity(device));
+    const deviceEntity = await jobState.addEntity(
+      createHostAgentEntity(device),
+    );
 
     const policyEntity = await jobState.findEntity(device['policy_id']);
     if (policyEntity) {
@@ -31,6 +33,8 @@ export async function fetchDevices({
         }),
       );
     }
+
+    // TODO: Create mapped relationship to user_endpoint|device entitites
   });
 }
 
@@ -38,14 +42,8 @@ export const devicesSteps: IntegrationStep<IntegrationConfig>[] = [
   {
     id: Steps.DEVICES,
     name: 'Fetch Devices',
-    entities: [
-      {
-        resourceName: 'Addigy Device',
-        _type: Entities.DEVICE._type,
-        _class: Entities.DEVICE._class,
-      },
-    ],
-    relationships: [Relationships.DEVICE_HAS_POLICY],
+    entities: [Entities.HOST_AGENT],
+    relationships: [Relationships.HOST_AGENT_HAS_POLICY],
     dependsOn: [Steps.POLICIES],
     executionHandler: fetchDevices,
   },

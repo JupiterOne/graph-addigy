@@ -5,14 +5,14 @@ import {
 import { Device } from '../../addigy/types';
 import { Entities } from '../constants';
 
-export function createDeviceEntity(device: Device): Entity {
+export function createHostAgentEntity(device: Device): Entity {
   return createIntegrationEntity({
     entityData: {
       source: device,
       assign: {
         _key: device.agentid,
-        _type: Entities.DEVICE._type,
-        _class: Entities.DEVICE._class,
+        _type: Entities.HOST_AGENT._type,
+        _class: Entities.HOST_AGENT._class,
         id: device['Serial Number'],
         name: device['Device Name'],
         user: device['Current User'], // TODO: see if this can map to a User|Person Entity
@@ -22,6 +22,7 @@ export function createDeviceEntity(device: Device): Entity {
         model: device['Hardware Model'],
         serial: device['Serial Number'],
         policyId: device['policy_id'],
+        function: ['endpoint-protection'],
       },
     },
   });

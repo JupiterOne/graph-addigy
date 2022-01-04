@@ -14,28 +14,18 @@ export const Steps = {
 };
 
 export const Entities: Record<
-  'ACCOUNT' | 'GROUP' | 'USER' | 'DEVICE' | 'POLICY',
+  'USER' | 'HOST_AGENT' | 'POLICY',
   StepEntityMetadata
 > = {
-  ACCOUNT: {
-    resourceName: 'Account',
-    _type: 'acme_account',
-    _class: ['Account'],
-  },
-  GROUP: {
-    resourceName: 'UserGroup',
-    _type: 'acme_group',
-    _class: ['UserGroup'],
-  },
   USER: {
     resourceName: 'User',
     _type: 'addigy_user',
     _class: ['User'],
   },
-  DEVICE: {
+  HOST_AGENT: {
     resourceName: 'Device',
-    _type: 'addigy_device',
-    _class: ['Device'],
+    _type: 'addigy_hostagent',
+    _class: ['HostAgent'],
   },
   POLICY: {
     resourceName: 'Policy',
@@ -45,35 +35,13 @@ export const Entities: Record<
 };
 
 export const Relationships: Record<
-  | 'ACCOUNT_HAS_USER'
-  | 'ACCOUNT_HAS_GROUP'
-  | 'GROUP_HAS_USER'
-  | 'DEVICE_HAS_POLICY',
+  'HOST_AGENT_HAS_POLICY',
   StepRelationshipMetadata
 > = {
-  DEVICE_HAS_POLICY: {
-    _type: 'addigy_device_has_policy',
-    sourceType: Entities.DEVICE._type,
+  HOST_AGENT_HAS_POLICY: {
+    _type: 'addigy_hostagent_has_policy',
+    sourceType: Entities.HOST_AGENT._type,
     _class: RelationshipClass.HAS,
     targetType: Entities.POLICY._type,
-  },
-
-  ACCOUNT_HAS_USER: {
-    _type: 'acme_account_has_user',
-    sourceType: Entities.ACCOUNT._type,
-    _class: RelationshipClass.HAS,
-    targetType: Entities.USER._type,
-  },
-  ACCOUNT_HAS_GROUP: {
-    _type: 'acme_account_has_group',
-    sourceType: Entities.ACCOUNT._type,
-    _class: RelationshipClass.HAS,
-    targetType: Entities.GROUP._type,
-  },
-  GROUP_HAS_USER: {
-    _type: 'acme_group_has_user',
-    sourceType: Entities.GROUP._type,
-    _class: RelationshipClass.HAS,
-    targetType: Entities.USER._type,
   },
 };

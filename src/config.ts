@@ -5,7 +5,6 @@ import {
   IntegrationValidationError,
 } from '@jupiterone/integration-sdk-core';
 
-import { AddigyClient } from './addigy/client';
 import { createAPIClient } from './client';
 
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
