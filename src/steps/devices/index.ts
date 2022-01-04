@@ -37,10 +37,11 @@ export function createHostAgentProtectsHostRelationship(
     _mapping: {
       sourceEntityKey: agentEntity._key,
       relationshipDirection: RelationshipDirection.FORWARD,
-      targetFilterKeys: [['_class', 'udid']],
+      targetFilterKeys: [['_type', '_key']],
       targetEntity: {
-        _class: ['Host', 'Device'], // Is this a Device or a host or both?
-        _type: 'USER_ENDPOINT',
+        _class: ['Device'],
+        _type: 'user_endpoint',
+        _key: device['Serial Number'],
         id: device.UDID,
         udid: device.UDID,
         hostname: device['Host Name'],
@@ -50,7 +51,8 @@ export function createHostAgentProtectsHostRelationship(
         category: device['Device Model Name'],
         make: 'Apple',
         model: device['Hardware Model'],
-        serial: device['Serial Number'],
+        serial: device['Serial Number'], // This is needed by Device Schema
+        serialNumber: device['Serial Number'],
       },
     },
   });
