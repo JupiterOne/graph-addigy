@@ -26,6 +26,7 @@ export function createHostAgentEntity(device: Device): Entity {
         appleSilicon: device['Is Apple Silicon'],
         systemVersion: device['System Version'],
         firewallEnabled: device['Firewall Enabled'],
+        // TODO: Add some more useful properties
       },
     },
   });
