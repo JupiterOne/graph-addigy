@@ -1,10 +1,5 @@
 import { IntegrationValidationError } from '@jupiterone/integration-sdk-core';
-import {
-  AddigyClient,
-  // createAddigyClient,
-} from './addigy/client';
-
-// import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
+import { AddigyClient } from './addigy/client';
 
 import { Device, User, Policy } from './addigy/types';
 
@@ -37,7 +32,6 @@ export class APIClient {
       clientSecret: this.config.clientSecret,
       adminUsername: this.config.adminUsername,
       adminPassword: this.config.adminPassword,
-      // logger,
     });
   }
 
