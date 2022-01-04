@@ -2,6 +2,7 @@ import {
   setupRecording,
   Recording,
   SetupRecordingInput,
+  mutations,
 } from '@jupiterone/integration-sdk-testing';
 
 export { Recording };
@@ -24,4 +25,7 @@ function redact(entry): void {
   if (entry.request.postData) {
     entry.request.postData.text = '[REDACTED]';
   }
+
+  //let's unzip the entry so we can modify it
+  mutations.unzipGzippedRecordingEntry(entry);
 }
