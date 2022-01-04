@@ -33,7 +33,7 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
   clientSecret: string;
   /**
    * User data that has owner role
-   * Used to hit internal API endpoing
+   * Used to hit internal API endpoint
    */
   adminUsername: string;
   adminPassword: string;
