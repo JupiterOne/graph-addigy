@@ -10,7 +10,7 @@ export function createHostAgentEntity(device: Device): Entity {
     entityData: {
       source: device,
       assign: {
-        _key: device.agentid,
+        _key: 'addigy-hostagent:' + device.agentid,
         _type: Entities.HOST_AGENT._type,
         _class: Entities.HOST_AGENT._class,
         id: device['Serial Number'],
