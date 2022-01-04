@@ -41,8 +41,8 @@ export function createHostAgentProtectsHostRelationship(
       targetEntity: {
         _class: ['Host', 'Device'], // Is this a Device or a host or both?
         _type: 'USER_ENDPOINT',
-        id: device.udid,
-        udid: device.udid,
+        id: device.UDID,
+        udid: device.UDID,
         hostname: device['Host Name'],
         ipAddress: device['Local Ip'],
         platform: device['OS Platform'],
@@ -78,7 +78,9 @@ export async function fetchDevices({
       );
     }
 
-    createHostAgentProtectsHostRelationship(hostAgentEntity, device);
+    await jobState.addRelationship(
+      createHostAgentProtectsHostRelationship(hostAgentEntity, device),
+    );
   });
 }
 
