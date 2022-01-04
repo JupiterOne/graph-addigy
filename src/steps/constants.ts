@@ -1,16 +1,15 @@
 import {
   RelationshipClass,
+  RelationshipDirection,
   StepEntityMetadata,
+  StepMappedRelationshipMetadata,
   StepRelationshipMetadata,
 } from '@jupiterone/integration-sdk-core';
 
 export const Steps = {
-  ACCOUNT: 'fetch-account',
   USERS: 'fetch-users',
-  GROUPS: 'fetch-groups',
   DEVICES: 'fetch-devices',
   POLICIES: 'fetch-policies',
-  GROUP_USER_RELATIONSHIPS: 'build-user-group-relationships',
 };
 
 export const Entities: Record<
@@ -23,7 +22,7 @@ export const Entities: Record<
     _class: ['User'],
   },
   HOST_AGENT: {
-    resourceName: 'Device',
+    resourceName: 'Addigy Device',
     _type: 'addigy_hostagent',
     _class: ['HostAgent'],
   },
@@ -43,5 +42,18 @@ export const Relationships: Record<
     sourceType: Entities.HOST_AGENT._type,
     _class: RelationshipClass.HAS,
     targetType: Entities.POLICY._type,
+  },
+};
+
+export const MappedRelationships: Record<
+  'HOST_AGENT_PROTECTS_ENDPOINT',
+  StepMappedRelationshipMetadata
+> = {
+  HOST_AGENT_PROTECTS_ENDPOINT: {
+    _type: 'addigy_hostagent_protects_user_endpoint',
+    sourceType: Entities.HOST_AGENT._type,
+    _class: RelationshipClass.PROTECTS,
+    targetType: 'user_endpoint',
+    direction: RelationshipDirection.FORWARD,
   },
 };

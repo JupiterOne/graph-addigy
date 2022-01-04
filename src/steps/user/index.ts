@@ -11,7 +11,6 @@ import { createAPIClient } from '../../client';
 export async function fetchUsers({
   instance,
   jobState,
-  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
   await apiClient.iterateUsers(async (user) => {

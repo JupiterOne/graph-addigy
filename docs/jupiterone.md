@@ -98,9 +98,9 @@ The following entities are created:
 
 | Resources     | Entity `_type`     | Entity `_class` |
 | ------------- | ------------------ | --------------- |
+| Addigy Device | `addigy_hostagent` | `HostAgent`     |
 | Addigy Policy | `addigy_policy`    | `Policy`        |
 | Addigy Users  | `addigy_user`      | `User`          |
-| Device        | `addigy_hostagent` | `HostAgent`     |
 
 ### Relationships
 
@@ -109,6 +109,14 @@ The following relationships are created:
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
 | `addigy_hostagent`    | **HAS**               | `addigy_policy`       |
+
+### Mapped Relationships
+
+The following mapped relationships are created:
+
+| Source Entity `_type` | Relationship `_class` | Target Entity `_type` | Direction |
+| --------------------- | --------------------- | --------------------- | --------- |
+| `addigy_hostagent`    | **PROTECTS**          | `*user_endpoint*`     | FORWARD   |
 
 <!--
 ********************************************************************************

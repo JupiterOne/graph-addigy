@@ -48,7 +48,7 @@ export interface Device {
   clientIp: string;
   meId: string;
   iCCID: string;
-  udid: string;
+  UDID: string;
   approvedPatchesApplied: number;
   online: boolean;
   agentid: string;
