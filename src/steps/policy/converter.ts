@@ -15,7 +15,7 @@ export function createPolicyEntity(policy: Policy): Entity {
         _class: Entities.POLICY._class,
         id: policy.policyId,
         title: policy.name,
-        parent: policy.parent,
+        parent: policy.parent, // TODO: investigate if this is how policies are nested
         downloadPath: policy.downloadPath,
         creationTime: policy.creationTime, // TODO: Fix this property type
         color: policy.color,
