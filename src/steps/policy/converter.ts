@@ -5,12 +5,17 @@ import {
 import { Policy } from '../../addigy/types';
 import { Entities } from '../constants';
 
+const POLICY_PREFIX = 'addigy-policy';
+export function createPolicyEntityIdentifier(id: string): string {
+  return `${POLICY_PREFIX}:${id}`;
+}
+
 export function createPolicyEntity(policy: Policy): Entity {
   return createIntegrationEntity({
     entityData: {
       source: policy,
       assign: {
-        _key: 'addigy-policy:' + policy.policyId,
+        _key: createPolicyEntityIdentifier(policy.policyId),
         _type: Entities.POLICY._type,
         _class: Entities.POLICY._class,
         id: policy.policyId,

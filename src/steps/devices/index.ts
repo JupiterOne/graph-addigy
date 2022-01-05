@@ -20,6 +20,7 @@ import {
 import { createHostAgentEntity } from './converter';
 import { createAPIClient } from '../../client';
 import { Device } from '../../addigy/types';
+import { createPolicyEntityIdentifier } from '../policy/converter';
 
 /**
  * Creates a mapped relationship between a HostAgent and Host.
@@ -69,7 +70,9 @@ export async function fetchDevices({
       createHostAgentEntity(device),
     );
 
-    const policyEntity = await jobState.findEntity(device['policy_id']);
+    const policyEntity = await jobState.findEntity(
+      createPolicyEntityIdentifier(device['policy_id']),
+    );
     if (policyEntity) {
       await jobState.addRelationship(
         createDirectRelationship({

@@ -10,6 +10,7 @@ export const Steps = {
   USERS: 'fetch-users',
   DEVICES: 'fetch-devices',
   POLICIES: 'fetch-policies',
+  FETCH_POLICY_TO_POLICY_RELATIONSHIP: 'fetch-policy-to-policy-relationship',
 };
 
 export const Entities: Record<
@@ -17,7 +18,7 @@ export const Entities: Record<
   StepEntityMetadata
 > = {
   USER: {
-    resourceName: 'User',
+    resourceName: 'Addigy User',
     _type: 'addigy_user',
     _class: ['User'],
   },
@@ -27,20 +28,32 @@ export const Entities: Record<
     _class: ['HostAgent'],
   },
   POLICY: {
-    resourceName: 'Policy',
+    resourceName: 'Addigy Policy',
     _type: 'addigy_policy',
     _class: ['Policy'],
   },
 };
 
 export const Relationships: Record<
-  'HOST_AGENT_HAS_POLICY',
+  'HOST_AGENT_HAS_POLICY' | 'USER_HAS_POLICY' | 'POLICY_CONTAINS_POLICY',
   StepRelationshipMetadata
 > = {
   HOST_AGENT_HAS_POLICY: {
     _type: 'addigy_hostagent_has_policy',
     sourceType: Entities.HOST_AGENT._type,
     _class: RelationshipClass.HAS,
+    targetType: Entities.POLICY._type,
+  },
+  USER_HAS_POLICY: {
+    _type: 'addigy_user_has_policy',
+    sourceType: Entities.USER._type,
+    _class: RelationshipClass.HAS,
+    targetType: Entities.POLICY._type,
+  },
+  POLICY_CONTAINS_POLICY: {
+    _type: 'addigy_policy_contains_policy',
+    sourceType: Entities.POLICY._type,
+    _class: RelationshipClass.CONTAINS,
     targetType: Entities.POLICY._type,
   },
 };

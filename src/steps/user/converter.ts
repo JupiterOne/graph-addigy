@@ -5,12 +5,17 @@ import {
 import { User } from '../../addigy/types';
 import { Entities } from '../constants';
 
+const USER_PREFIX = 'addigy-user';
+export function createUserEntityIdentifier(id: string): string {
+  return `${USER_PREFIX}:${id}`;
+}
+
 export function createUserEntity(user: User): Entity {
   return createIntegrationEntity({
     entityData: {
       source: user,
       assign: {
-        _key: 'addigy-user:' + user.id,
+        _key: createUserEntityIdentifier(user.id),
         _type: Entities.USER._type,
         _class: Entities.USER._class,
         id: user.id,

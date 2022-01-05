@@ -92,7 +92,7 @@ describe('#fetchDevices', () => {
     ).toMatchDirectRelationshipSchema({
       schema: {
         properties: {
-          _class: { const: RelationshipClass.ASSIGNED },
+          _class: { const: RelationshipClass.HAS },
           _type: { const: Relationships.HOST_AGENT_HAS_POLICY._type },
         },
       },
