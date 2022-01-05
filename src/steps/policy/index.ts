@@ -69,7 +69,7 @@ export const policiesSteps: IntegrationStep<IntegrationConfig>[] = [
   {
     id: Steps.FETCH_POLICY_TO_POLICY_RELATIONSHIP,
     name: 'Fetch Policies',
-    entities: [Entities.POLICY],
+    entities: [],
     relationships: [Relationships.POLICY_CONTAINS_POLICY],
     dependsOn: [Steps.POLICIES],
     executionHandler: fetchPolicyToPolicyRelationship,
