@@ -10,7 +10,7 @@ export function createUserEntity(user: User): Entity {
     entityData: {
       source: user,
       assign: {
-        _key: user.id,
+        _key: 'addigy-user:' + user.id,
         _type: Entities.USER._type,
         _class: Entities.USER._class,
         id: user.id,
