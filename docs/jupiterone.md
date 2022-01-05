@@ -99,8 +99,8 @@ The following entities are created:
 | Resources     | Entity `_type`     | Entity `_class` |
 | ------------- | ------------------ | --------------- |
 | Addigy Device | `addigy_hostagent` | `HostAgent`     |
-| Policy        | `addigy_policy`    | `Policy`        |
-| User          | `addigy_user`      | `User`          |
+| Addigy Policy | `addigy_policy`    | `Policy`        |
+| Addigy User   | `addigy_user`      | `User`          |
 
 ### Relationships
 

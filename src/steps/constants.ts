@@ -18,7 +18,7 @@ export const Entities: Record<
   StepEntityMetadata
 > = {
   USER: {
-    resourceName: 'User',
+    resourceName: 'Addigy User',
     _type: 'addigy_user',
     _class: ['User'],
   },
@@ -28,7 +28,7 @@ export const Entities: Record<
     _class: ['HostAgent'],
   },
   POLICY: {
-    resourceName: 'Policy',
+    resourceName: 'Addigy Policy',
     _type: 'addigy_policy',
     _class: ['Policy'],
   },
