@@ -5,12 +5,17 @@ import {
 import { Device } from '../../addigy/types';
 import { Entities } from '../constants';
 
+const HOST_AGENT_PREFIX = 'addigy-hostagent';
+export function createHostAgentEntityIdentifier(id: string): string {
+  return `${HOST_AGENT_PREFIX}:${id}`;
+}
+
 export function createHostAgentEntity(device: Device): Entity {
   return createIntegrationEntity({
     entityData: {
       source: device,
       assign: {
-        _key: 'addigy-hostagent:' + device.agentid,
+        _key: createHostAgentEntityIdentifier(device.agentid),
         _type: Entities.HOST_AGENT._type,
         _class: Entities.HOST_AGENT._class,
         id: device['Serial Number'],

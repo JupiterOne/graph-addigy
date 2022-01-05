@@ -4,7 +4,9 @@ import { Recording, setupAddigyRecording } from '../../../test/recording';
 
 import { integrationConfig } from '../../../test/config';
 
-import { fetchPolicies } from '.';
+import { fetchPolicies, fetchPolicyToPolicyRelationship } from '.';
+import { Relationships } from '../constants';
+import { RelationshipClass } from '@jupiterone/integration-sdk-core';
 
 describe('#fetchPolicies', () => {
   let recording: Recording;
@@ -59,6 +61,52 @@ describe('#fetchPolicies', () => {
           },
         },
         required: [],
+      },
+    });
+  });
+});
+
+describe('#buildPolicyToPolicyRelationships', () => {
+  let recording: Recording;
+
+  afterEach(async () => {
+    await recording.stop();
+  });
+
+  test('should collect data', async () => {
+    recording = setupAddigyRecording({
+      directory: __dirname,
+      name: 'buildPolicyToPolicyRelationshipsShouldCollectData',
+      options: {
+        matchRequestsBy: {
+          url: {
+            hostname: false,
+          },
+        },
+        recordFailedRequests: false,
+      },
+    });
+
+    const context = createMockStepExecutionContext({
+      instanceConfig: integrationConfig,
+    });
+
+    await fetchPolicies(context);
+    await fetchPolicyToPolicyRelationship(context);
+
+    expect(context.jobState.collectedRelationships?.length).toBeTruthy;
+
+    // Policy to Policy relationship
+    expect(
+      context.jobState.collectedRelationships.filter(
+        (r) => r._type === Relationships.POLICY_CONTAINS_POLICY._type,
+      ),
+    ).toMatchDirectRelationshipSchema({
+      schema: {
+        properties: {
+          _class: { const: RelationshipClass.CONTAINS },
+          _type: { const: Relationships.POLICY_CONTAINS_POLICY._type },
+        },
       },
     });
   });
