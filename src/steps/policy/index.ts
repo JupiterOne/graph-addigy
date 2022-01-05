@@ -23,23 +23,19 @@ export async function fetchPolicies({
 export async function fetchPolicyToPolicyRelationship({
   jobState,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
-  console.log('LKSDJF:LKSJDF:LSKDJF:LSDKJ');
   await jobState.iterateEntities(
     { _type: Entities.POLICY._type },
     async (policyEntity) => {
-      console.log('WLKJELJWLJKFLKDJFSLDKJFD');
       const policyParentId = policyEntity.parent as string;
-      console.log('WOMBAT');
 
       if (policyParentId) {
-        console.log(policyEntity);
         // If this role has a parent, build the role to role relationship
         const parentPolicyEntityId =
           createPolicyEntityIdentifier(policyParentId);
         const parentPolicyEntity = await jobState.findEntity(
           parentPolicyEntityId,
         );
-        console.log('WOMBAT');
+
         if (parentPolicyEntity) {
           await jobState.addRelationship(
             createDirectRelationship({
