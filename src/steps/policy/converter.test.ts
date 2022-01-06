@@ -6,9 +6,7 @@ describe('#createPolicyEntity', () => {
     const policy = {
       creation_time: 1635863715,
       orgid: 'dbe4ca5c-7374-4246-a4a0-86a6dc501875',
-      icon: 'fa fa-university',
-      parent: null,
-      color: '#000000',
+      parent: 'dbe4ca5c-7374-4246-a4a0-86a6dc501877',
       name: 'JupiterOne',
       policyId: 'a8b36bef-42d1-4a96-bfdf-f39e36fa5bc2',
       download_path:
@@ -24,10 +22,8 @@ describe('#createPolicyEntity', () => {
         _class: ['Policy'],
         id: 'a8b36bef-42d1-4a96-bfdf-f39e36fa5bc2',
         title: 'JupiterOne',
-        parent: null,
-        color: '#000000',
+        parent: 'dbe4ca5c-7374-4246-a4a0-86a6dc501877',
         orgid: 'dbe4ca5c-7374-4246-a4a0-86a6dc501875',
-        icon: 'fa fa-university',
         summary: 'JupiterOne',
         content: 'JupiterOne',
         _rawData: [

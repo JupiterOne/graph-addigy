@@ -20,12 +20,10 @@ export function createPolicyEntity(policy: Policy): Entity {
         _class: Entities.POLICY._class,
         id: policy.policyId,
         title: policy.name,
-        parent: policy.parent, // TODO: investigate if this is how policies are nested
-        downloadPath: policy.downloadPath,
-        creationTime: policy.creationTime, // TODO: Fix this property type
-        color: policy.color,
+        parent: policy.parent || undefined,
+        downloadPath: policy['download_path'],
+        creationOn: policy['creation_time'],
         orgid: policy.orgid,
-        icon: policy.icon,
         summary: policy.name,
         content: policy.name,
       },

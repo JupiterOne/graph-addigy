@@ -18,7 +18,7 @@ export function createHostAgentEntity(device: Device): Entity {
         _key: createHostAgentEntityIdentifier(device.agentid),
         _type: Entities.HOST_AGENT._type,
         _class: Entities.HOST_AGENT._class,
-        id: device['Serial Number'],
+        id: device.agentid,
         name: device['Device Name'],
         user: device['Current User'], // TODO: see if this can map to a User|Person Entity
         displayName: device['Device Name'],
@@ -30,8 +30,9 @@ export function createHostAgentEntity(device: Device): Entity {
         function: ['endpoint-protection'],
         appleSilicon: device['Is Apple Silicon'],
         systemVersion: device['System Version'],
-        firewallEnabled: device['Firewall Enabled'],
-        // TODO: Add some more useful properties
+        firewallEnabled: device['Firewall Enabled'] || undefined,
+        filevaultEnabled: device['Filevault Enabled'] || undefined,
+        platform: device['OS Platform'] || undefined,
       },
     },
   });
