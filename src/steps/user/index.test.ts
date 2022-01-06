@@ -61,7 +61,6 @@ describe('#fetchUsers', () => {
     });
   });
 
-  // TODO: Enable this test once I have verified the policy logic
   test('should build user to policy relationship', async () => {
     recording = setupAddigyRecording({
       directory: __dirname,

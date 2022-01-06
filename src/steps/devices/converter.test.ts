@@ -20,7 +20,7 @@ describe('#createHostAgentEntity', () => {
         _key: 'addigy-hostagent:agent-id',
         _type: 'addigy_hostagent',
         _class: ['HostAgent'],
-        id: 'SerialNumber',
+        id: 'agent-id',
         name: 'name',
         displayName: 'name',
         policyId: '12334',

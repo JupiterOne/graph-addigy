@@ -27,10 +27,8 @@ export enum Method {
 }
 
 export interface Policy {
-  creationTime: number;
   name: string;
   parent: string;
-  downloadPath: string;
   policyId: string;
   color: string;
   orgid: string;
