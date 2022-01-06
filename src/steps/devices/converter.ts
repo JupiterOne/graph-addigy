@@ -31,7 +31,7 @@ export function createHostAgentEntity(device: Device): Entity {
         appleSilicon: device['Is Apple Silicon'],
         systemVersion: device['System Version'],
         firewallEnabled: device['Firewall Enabled'] || undefined,
-        filevaultEnabled: device['Filevault Enabled'] || undefined,
+        fileVaultEnabled: device['FileVault Enabled'] || undefined,
         platform: device['OS Platform'] || undefined,
       },
     },

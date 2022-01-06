@@ -2,14 +2,16 @@
 sourceId: managed:template
 integrationDefinitionId: '${integration_definition_id}'
 questions:
-  - id: integration-question-template-replace-me
-    title: What kinds of questions will this integration support?
-    description:
-      TODO Every integration should contribute questions! Please be carefule
-      to replace this before deploying the integration to JupiterOne.
+  - id: managed-question-addigy-intel-cpus
+    title: Which MacOS computers are secure?
+    description: Returns MacOS devices that have firewall and/or filevault enabled
     queries:
       - name: good
         query: |
-          find * with _integrationDefinitionId = '${integration_definition_id}'
+          FIND addigy_hostagent WITH systemVersion ~= 'macOS' and firewallEnabled=true and fileVaultEnabled=true
+      - name: bad
+        query: |
+          FIND addigy_hostagent WITH systemVersion ~= 'macOS' and firewallEnabled!=true or fileVaultEnabled!=true
     tags:
-      - template
+      - addigy
+      - device
