@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+[1.0.1] - 2022-01-06
+
+### Added
+
+- Added simple managed question to query for all secure MacOS Devices.
+
 [1.0.0] - 2022-01-06
 
 - Initial version for development and testing

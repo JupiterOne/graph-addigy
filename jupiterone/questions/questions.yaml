@@ -8,10 +8,10 @@ questions:
     queries:
       - name: good
         query: |
-          FIND addigy_hostagent WITH systemVersion = 'macOS' and firewallEnabled=true and fileVaultEnabled=true
+          FIND addigy_hostagent WITH systemVersion ~= 'macOS' and firewallEnabled=true and fileVaultEnabled=true
       - name: bad
         query: |
-          FIND addigy_hostagent WITH systemVersion = 'macOS' and firewallEnabled!=true or fileVaultEnabled!=true
+          FIND addigy_hostagent WITH systemVersion ~= 'macOS' and firewallEnabled!=true or fileVaultEnabled!=true
     tags:
       - addigy
       - device
