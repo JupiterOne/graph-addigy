@@ -33,6 +33,9 @@ export function createHostAgentEntity(device: Device): Entity {
         firewallEnabled: device['Firewall Enabled'] || undefined,
         fileVaultEnabled: device['FileVault Enabled'] || undefined,
         platform: device['OS Platform'] || undefined,
+        totalMemory: device['Total Memory (GB)'] || undefined,
+        totalDiskSpace: device['Total Disk Space (GB)'] || undefined,
+        lastOnline: device['Last Online'] || undefined,
       },
     },
   });

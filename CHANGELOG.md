@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Added `totalMemory`, `totalDiskSpace`, and `lastOnline` to `Device` entity
+
 [1.0.1] - 2022-01-06
 
 ### Added
