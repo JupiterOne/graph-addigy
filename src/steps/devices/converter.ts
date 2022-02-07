@@ -36,7 +36,7 @@ export function createHostAgentEntity(device: Device): Entity {
         platform: device['OS Platform'] || undefined,
         totalMemory: device['Total Memory (GB)'] || undefined,
         totalDiskSpace: device['Total Disk Space (GB)'] || undefined,
-        lastOnline: parseTimePropertyValue(device['Last Online']) || undefined,
+        lastOnline: parseTimePropertyValue(device['Last Online']),
       },
     },
   });
