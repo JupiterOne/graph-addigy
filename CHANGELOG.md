@@ -8,9 +8,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+[1.0.2] - 2022-02-07
+
 ### Added
 
-- Added `totalMemory`, `totalDiskSpace`, and `lastOnline` to `Device` entity
+- New properties added to entities:
+
+  | Entity          | Properties                                    |
+  | --------------- | --------------------------------------------- |
+  | `addigy_device` | `totalMemory`, `totalDiskSpace`, `lastOnline` |
 
 [1.0.1] - 2022-01-06
 
