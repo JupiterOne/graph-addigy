@@ -1,6 +1,7 @@
 import {
   createIntegrationEntity,
   Entity,
+  parseTimePropertyValue,
 } from '@jupiterone/integration-sdk-core';
 import { Device } from '../../addigy/types';
 import { Entities } from '../constants';
@@ -33,6 +34,9 @@ export function createHostAgentEntity(device: Device): Entity {
         firewallEnabled: device['Firewall Enabled'] || undefined,
         fileVaultEnabled: device['FileVault Enabled'] || undefined,
         platform: device['OS Platform'] || undefined,
+        totalMemory: device['Total Memory (GB)'] || undefined,
+        totalDiskSpace: device['Total Disk Space (GB)'] || undefined,
+        lastOnline: parseTimePropertyValue(device['Last Online']),
       },
     },
   });
