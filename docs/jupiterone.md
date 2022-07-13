@@ -1,4 +1,4 @@
-# Integration with JupiterOne
+# Addigy
 
 ## Addigy + JupiterOne Integration Benefits
 
