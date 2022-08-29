@@ -15,3 +15,14 @@ questions:
     tags:
       - addigy
       - device
+
+  - id: managed-question-addigy-policy-hierarchy
+    title: Which Addigy policies use organizations and locations to deploy software.
+    description: Returns a list of Addigy policies that deploy software at the organization and location level.
+    queries:
+      - name: informative
+        query: |
+          Find UNIQUE addigy_policy that CONTAINS << addigy_policy
+    tags:
+      - addigy
+      - policy  
