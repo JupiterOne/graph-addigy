@@ -44,6 +44,7 @@ export function createHostAgentProtectsHostRelationship(
         _type: 'user_endpoint',
         _key: device['Serial Number'],
         id: device.UDID,
+        displayName: device['Host Name'] || device['Device Model Name'],
         udid: device.UDID,
         hostname: device['Host Name'],
         ipAddress: device['Local IP'],

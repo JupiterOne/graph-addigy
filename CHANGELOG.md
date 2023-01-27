@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+[1.0.3] - 2023-01-27
+
+### Fixed
+
+- Mapped `Device.displayName` was set to null
+
 [1.0.2] - 2022-02-07
 
 ### Added
