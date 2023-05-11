@@ -12,6 +12,11 @@ export function createHostAgentEntityIdentifier(id: string): string {
 }
 
 export function createHostAgentEntity(device: Device): Entity {
+  const serialNumber = device['Serial Number'];
+  const wifiMacAddress = device['Wifi MAC Address'];
+  const ethernetMacAddress = device['Ethernet MAC Address'];
+  const lastSeenOn = parseTimePropertyValue(device['Last Online']);
+
   return createIntegrationEntity({
     entityData: {
       source: device,
@@ -26,7 +31,14 @@ export function createHostAgentEntity(device: Device): Entity {
         category: device['Device Model Name'],
         make: 'Apple',
         model: device['Hardware Model'],
-        serial: device['Serial Number'],
+        serial: serialNumber,
+        serialNumber: serialNumber,
+        ethernetMacAddress,
+        wifiMacAddress,
+        macAddress: getEntityMacAddressValue({
+          ethernetMacAddress,
+          wifiMacAddress,
+        }),
         policyId: device['policy_id'],
         function: ['endpoint-protection'],
         appleSilicon: device['Is Apple Silicon'],
@@ -36,8 +48,24 @@ export function createHostAgentEntity(device: Device): Entity {
         platform: device['OS Platform'] || undefined,
         totalMemory: device['Total Memory (GB)'] || undefined,
         totalDiskSpace: device['Total Disk Space (GB)'] || undefined,
-        lastOnline: parseTimePropertyValue(device['Last Online']),
+        lastOnline: lastSeenOn,
+        lastSeenOn,
       },
     },
   });
+}
+
+function getEntityMacAddressValue({
+  wifiMacAddress,
+  ethernetMacAddress,
+}: {
+  ethernetMacAddress: string | undefined;
+  wifiMacAddress: string | undefined;
+}) {
+  const macAddress: string[] = [];
+
+  if (ethernetMacAddress) macAddress.push(ethernetMacAddress);
+  if (wifiMacAddress) macAddress.push(wifiMacAddress);
+
+  return macAddress.length > 0 ? macAddress : undefined;
 }

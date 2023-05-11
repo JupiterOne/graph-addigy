@@ -8,6 +8,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- New properties added to entities:
+
+  | Entity             | Properties                                                           |
+  | ------------------ | -------------------------------------------------------------------- |
+  | `addigy_hostagent` | `serialNumber`, `macAddress`, `wifiMacAddress`, `ethernetMacAddress` |
+  | `user_endpoint`    | `macAddress`, `wifiMacAddress`, `ethernetMacAddress`                 |
+
 [1.0.3] - 2023-01-27
 
 ### Fixed
@@ -20,9 +29,9 @@ and this project adheres to
 
 - New properties added to entities:
 
-  | Entity          | Properties                                    |
-  | --------------- | --------------------------------------------- |
-  | `addigy_device` | `totalMemory`, `totalDiskSpace`, `lastOnline` |
+  | Entity             | Properties                                    |
+  | ------------------ | --------------------------------------------- |
+  | `addigy_hostagent` | `totalMemory`, `totalDiskSpace`, `lastOnline` |
 
 [1.0.1] - 2022-01-06
 
