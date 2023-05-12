@@ -55,6 +55,12 @@ export function createHostAgentProtectsHostRelationship(
         model: device['Hardware Model'],
         serial: device['Serial Number'], // This is needed by Device Schema
         serialNumber: device['Serial Number'],
+
+        ethernetMacAddress: agentEntity.ethernetMacAddress as
+          | string
+          | undefined,
+        wifiMacAddress: agentEntity.ethernetMacAddress as string | undefined,
+        macAddress: agentEntity.macAddress as string[] | undefined,
       },
     },
   });
