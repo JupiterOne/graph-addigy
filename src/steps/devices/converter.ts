@@ -32,7 +32,7 @@ export function createHostAgentEntity(device: Device): Entity {
         make: 'Apple',
         model: device['Hardware Model'],
         serial: serialNumber,
-        serialNumber: serialNumber,
+        serialNumber,
         ethernetMacAddress,
         wifiMacAddress,
         macAddress: getEntityMacAddressValue({
