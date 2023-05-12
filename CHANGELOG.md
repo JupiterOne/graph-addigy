@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+1.1.0 - 2023-05-12
+
 ### Added
 
 - New properties added to entities:
