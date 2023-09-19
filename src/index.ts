@@ -5,10 +5,12 @@ import {
   instanceConfigFields,
   validateInvocation,
 } from './config';
+import { ingestionConfig } from './ingestionConfig';
 
 export const invocationConfig: IntegrationInvocationConfig<IntegrationConfig> =
   {
     instanceConfigFields,
     validateInvocation,
     integrationSteps,
+    ingestionConfig,
   };
