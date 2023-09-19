@@ -3,7 +3,7 @@ import {
   Entity,
 } from '@jupiterone/integration-sdk-core';
 import { User } from '../../addigy/types';
-import { Entities } from '../constants';
+import { Entities } from '../../constants';
 
 const USER_PREFIX = 'addigy-user';
 export function createUserEntityIdentifier(id: string): string {

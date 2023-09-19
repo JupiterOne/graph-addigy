@@ -13,10 +13,11 @@ import { IntegrationConfig } from '../../config';
 
 import {
   Entities,
+  IngestionSources,
   MappedRelationships,
   Relationships,
   Steps,
-} from '../constants';
+} from '../../constants';
 import { createHostAgentEntity } from './converter';
 import { createAPIClient } from '../../client';
 import { Device } from '../../addigy/types';
@@ -77,23 +78,40 @@ export async function fetchDevices({
       createHostAgentEntity(device),
     );
 
-    const policyEntity = await jobState.findEntity(
-      createPolicyEntityIdentifier(device['policy_id']),
-    );
-    if (policyEntity) {
-      await jobState.addRelationship(
-        createDirectRelationship({
-          _class: RelationshipClass.HAS,
-          from: hostAgentEntity,
-          to: policyEntity,
-        }),
-      );
-    }
-
     await jobState.addRelationship(
       createHostAgentProtectsHostRelationship(hostAgentEntity, device),
     );
   });
+}
+
+export async function buildHostAgentHasPolicyRelationship({
+  jobState,
+}: IntegrationStepExecutionContext<IntegrationConfig>) {
+  await jobState.iterateEntities(
+    { _type: Entities.HOST_AGENT._type },
+    async (hostAgentEntity) => {
+      if (
+        !('policyId' in hostAgentEntity) ||
+        typeof hostAgentEntity.policyId !== 'string'
+      ) {
+        return;
+      }
+      const policyEntityKey = createPolicyEntityIdentifier(
+        hostAgentEntity.policyId,
+      );
+      if (jobState.hasKey(policyEntityKey)) {
+        await jobState.addRelationship(
+          createDirectRelationship({
+            _class: RelationshipClass.HAS,
+            fromKey: hostAgentEntity._key,
+            fromType: Entities.HOST_AGENT._type,
+            toKey: policyEntityKey,
+            toType: Entities.POLICY._type,
+          }),
+        );
+      }
+    },
+  );
 }
 
 export const devicesSteps: IntegrationStep<IntegrationConfig>[] = [
@@ -101,9 +119,18 @@ export const devicesSteps: IntegrationStep<IntegrationConfig>[] = [
     id: Steps.DEVICES,
     name: 'Fetch Devices',
     entities: [Entities.HOST_AGENT],
-    relationships: [Relationships.HOST_AGENT_HAS_POLICY],
+    relationships: [],
     mappedRelationships: [MappedRelationships.HOST_AGENT_PROTECTS_ENDPOINT],
-    dependsOn: [Steps.POLICIES],
+    dependsOn: [],
+    ingestionSourceId: IngestionSources.DEVICES,
     executionHandler: fetchDevices,
+  },
+  {
+    id: Steps.BUILD_HOST_AGENT_HAS_POLICY_RELATIONSHIP,
+    name: 'Build Host Agent Has Policy Relationship',
+    entities: [],
+    relationships: [Relationships.HOST_AGENT_HAS_POLICY],
+    dependsOn: [Steps.DEVICES, Steps.POLICIES],
+    executionHandler: buildHostAgentHasPolicyRelationship,
   },
 ];

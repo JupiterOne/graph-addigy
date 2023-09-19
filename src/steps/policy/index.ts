@@ -5,7 +5,12 @@ import {
 } from '@jupiterone/integration-sdk-core';
 import { IntegrationConfig } from '../../config';
 
-import { Entities, Relationships, Steps } from '../constants';
+import {
+  Entities,
+  IngestionSources,
+  Relationships,
+  Steps,
+} from '../../constants';
 import { createPolicyEntity, createPolicyEntityIdentifier } from './converter';
 import { createAPIClient } from '../../client';
 
@@ -20,7 +25,7 @@ export async function fetchPolicies({
   });
 }
 
-export async function fetchPolicyToPolicyRelationship({
+export async function buildPolicyToPolicyRelationship({
   jobState,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   await jobState.iterateEntities(
@@ -28,27 +33,27 @@ export async function fetchPolicyToPolicyRelationship({
     async (policyEntity) => {
       const policyParentId = policyEntity.parent as string;
 
-      if (policyParentId) {
-        // If this role has a parent, build the role to role relationship
-        const parentPolicyEntityId =
-          createPolicyEntityIdentifier(policyParentId);
-        const parentPolicyEntity = await jobState.findEntity(
-          parentPolicyEntityId,
-        );
-
-        if (parentPolicyEntity) {
-          await jobState.addRelationship(
-            createDirectRelationship({
-              _class: Relationships.POLICY_CONTAINS_POLICY._class,
-              from: parentPolicyEntity,
-              to: policyEntity,
-              properties: {
-                _type: Relationships.POLICY_CONTAINS_POLICY._type,
-              },
-            }),
-          );
-        }
+      if (!policyParentId) {
+        return;
       }
+
+      const parentPolicyEntityKey =
+        createPolicyEntityIdentifier(policyParentId);
+      if (!jobState.hasKey(parentPolicyEntityKey)) {
+        return;
+      }
+      await jobState.addRelationship(
+        createDirectRelationship({
+          _class: Relationships.POLICY_CONTAINS_POLICY._class,
+          fromKey: parentPolicyEntityKey,
+          fromType: Entities.POLICY._type,
+          toKey: policyEntity._key,
+          toType: Entities.POLICY._type,
+          properties: {
+            _type: Relationships.POLICY_CONTAINS_POLICY._type,
+          },
+        }),
+      );
     },
   );
 }
@@ -60,14 +65,16 @@ export const policiesSteps: IntegrationStep<IntegrationConfig>[] = [
     entities: [Entities.POLICY],
     relationships: [],
     dependsOn: [],
+    ingestionSourceId: IngestionSources.POLICIES,
     executionHandler: fetchPolicies,
   },
   {
-    id: Steps.FETCH_POLICY_TO_POLICY_RELATIONSHIP,
-    name: 'Fetch Policies',
+    id: Steps.BUILD_POLICY_TO_POLICY_RELATIONSHIP,
+    name: 'Build Policy to Policy Relationship',
     entities: [],
     relationships: [Relationships.POLICY_CONTAINS_POLICY],
     dependsOn: [Steps.POLICIES],
-    executionHandler: fetchPolicyToPolicyRelationship,
+    ingestionSourceId: IngestionSources.POLICIES,
+    executionHandler: buildPolicyToPolicyRelationship,
   },
 ];

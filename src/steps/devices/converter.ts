@@ -4,7 +4,7 @@ import {
   parseTimePropertyValue,
 } from '@jupiterone/integration-sdk-core';
 import { Device } from '../../addigy/types';
-import { Entities } from '../constants';
+import { Entities } from '../../constants';
 
 const HOST_AGENT_PREFIX = 'addigy-hostagent';
 export function createHostAgentEntityIdentifier(id: string): string {
