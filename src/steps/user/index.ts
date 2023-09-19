@@ -6,7 +6,13 @@ import {
 } from '@jupiterone/integration-sdk-core';
 
 import { IntegrationConfig } from '../../config';
-import { Entities, Relationships, Steps } from '../constants';
+import {
+  Entities,
+  IngestionSources,
+  Relationships,
+  Steps,
+  USER_TO_POLICIES_DATA,
+} from '../../constants';
 import { createUserEntity } from './converter';
 import { createAPIClient } from '../../client';
 import { createPolicyEntityIdentifier } from '../policy/converter';
@@ -16,10 +22,25 @@ export async function fetchUsers({
   jobState,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
+  const userToPoliciesMap = new Map<string, string[] | null>();
+
   await apiClient.iterateUsers(async (user) => {
     const userEntity = await jobState.addEntity(createUserEntity(user));
+    userToPoliciesMap.set(userEntity._key, user.policies);
+  });
 
-    if (!user.policies || !user.policies.length) {
+  await jobState.setData(USER_TO_POLICIES_DATA, userToPoliciesMap);
+}
+
+export async function buildUserHasPolicyRelationships({
+  jobState,
+}: IntegrationStepExecutionContext<IntegrationConfig>) {
+  const userToPoliciesMap = (await jobState.getData(
+    USER_TO_POLICIES_DATA,
+  )) as Map<string, string[] | null>;
+
+  for (const [userKey, policies] of userToPoliciesMap) {
+    if (!policies || !policies.length) {
       // If the user is an admin and has access to all policies
       // this will return as [] or null.
       await jobState.iterateEntities(
@@ -28,29 +49,31 @@ export async function fetchUsers({
           await jobState.addRelationship(
             createDirectRelationship({
               _class: RelationshipClass.HAS,
-              from: userEntity,
-              to: policyEntity,
+              fromKey: userKey,
+              fromType: Entities.USER._type,
+              toKey: policyEntity._key,
+              toType: Entities.POLICY._type,
             }),
           );
         },
       );
     } else {
-      for (const policy of user.policies) {
-        const policyEntity = await jobState.findEntity(
-          createPolicyEntityIdentifier(policy),
-        );
-        if (policyEntity) {
+      for (const policy of policies) {
+        const policyEntityKey = createPolicyEntityIdentifier(policy);
+        if (jobState.hasKey(policyEntityKey)) {
           await jobState.addRelationship(
             createDirectRelationship({
               _class: RelationshipClass.HAS,
-              from: userEntity,
-              to: policyEntity,
+              fromKey: userKey,
+              fromType: Entities.USER._type,
+              toKey: policyEntityKey,
+              toType: Entities.POLICY._type,
             }),
           );
         }
       }
     }
-  });
+  }
 }
 
 export const userSteps: IntegrationStep<IntegrationConfig>[] = [
@@ -58,8 +81,17 @@ export const userSteps: IntegrationStep<IntegrationConfig>[] = [
     id: Steps.USERS,
     name: 'Fetch Users',
     entities: [Entities.USER],
-    relationships: [Relationships.USER_HAS_POLICY],
-    dependsOn: [Steps.POLICIES],
+    relationships: [],
+    dependsOn: [],
+    ingestionSourceId: IngestionSources.USERS,
     executionHandler: fetchUsers,
+  },
+  {
+    id: Steps.BUILD_USER_HAS_POLICY_RELATIONSHIP,
+    name: 'Build User Has Policy Relationships',
+    entities: [],
+    relationships: [Relationships.USER_HAS_POLICY],
+    dependsOn: [Steps.USERS, Steps.POLICIES],
+    executionHandler: buildUserHasPolicyRelationships,
   },
 ];

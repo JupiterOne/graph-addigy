@@ -3,7 +3,7 @@ import {
   Entity,
 } from '@jupiterone/integration-sdk-core';
 import { Policy } from '../../addigy/types';
-import { Entities } from '../constants';
+import { Entities } from '../../constants';
 
 const POLICY_PREFIX = 'addigy-policy';
 export function createPolicyEntityIdentifier(id: string): string {

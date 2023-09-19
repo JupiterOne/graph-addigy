@@ -1,25 +1,32 @@
-import { createMockStepExecutionContext } from '@jupiterone/integration-sdk-testing';
-import { RelationshipClass } from '@jupiterone/integration-sdk-core';
+import { buildStepTestConfig } from '../../../test/config';
+import { executeStepWithDependencies } from '@jupiterone/integration-sdk-testing';
+import { setupAddigyRecording, Recording } from '../../../test/recording';
+import { Steps } from '../../constants';
+import { Relationship } from '@jupiterone/integration-sdk-core';
 
-import { Recording, setupAddigyRecording } from '../../../test/recording';
+function isMappedRelationship(r: Relationship): boolean {
+  return !!r._mapping;
+}
 
-import { integrationConfig } from '../../../test/config';
+function filterDirectRelationships(
+  relationships: Relationship[],
+): Relationship[] {
+  return relationships.filter((r) => !isMappedRelationship(r));
+}
 
-import { fetchDevices } from '.';
-import { fetchPolicies } from '../policy';
-import { Relationships } from '../constants';
+let recording: Recording;
 
-describe('#fetchDevices', () => {
-  let recording: Recording;
-
-  afterEach(async () => {
+afterEach(async () => {
+  if (recording) {
     await recording.stop();
-  });
+  }
+});
 
-  test('should collect data', async () => {
+describe(Steps.DEVICES, () => {
+  test('success', async () => {
     recording = setupAddigyRecording({
       directory: __dirname,
-      name: 'fetchDevicesShouldCollectData',
+      name: Steps.DEVICES,
       options: {
         matchRequestsBy: {
           url: {
@@ -30,72 +37,53 @@ describe('#fetchDevices', () => {
       },
     });
 
-    const context = createMockStepExecutionContext({
-      instanceConfig: integrationConfig,
-    });
-    await fetchDevices(context);
-
-    expect(context.jobState.collectedEntities?.length).toBeTruthy;
-    expect(context.jobState.collectedEntities).toMatchGraphObjectSchema({
-      _class: ['HostAgent'],
-      schema: {
-        additionalProperties: true,
-        properties: {
-          _type: { const: 'addigy_hostagent' },
-          _key: { type: 'string' },
-          id: { type: 'string' },
-          displayName: { type: 'string' },
-          policyId: { type: 'string' },
-          name: { type: 'string' },
-          createdOn: { type: 'number' },
-          createdBy: { type: 'string' },
-          updatedOn: { type: 'number' },
-          updatedBy: { type: 'string' },
-          _rawData: {
-            type: 'array',
-            items: { type: 'object' },
-          },
-        },
-        required: [],
-      },
-    });
-  });
-
-  test('should build device to policy relationship', async () => {
-    recording = setupAddigyRecording({
-      directory: __dirname,
-      name: 'fetchDevicesShouldBuildPolicyRelationship',
-      options: {
-        matchRequestsBy: {
-          url: {
-            hostname: false,
-          },
-        },
-        recordFailedRequests: false,
-      },
-    });
-
-    const context = createMockStepExecutionContext({
-      instanceConfig: integrationConfig,
-    });
-    await fetchPolicies(context);
-    await fetchDevices(context);
-
-    // Check that device to policy relationship was built
-    expect(context.jobState.collectedRelationships?.length).toBeTruthy;
-
-    // Device to Policy relationship
-    expect(
-      context.jobState.collectedRelationships.filter(
-        (r) => r._type === Relationships.HOST_AGENT_HAS_POLICY._type,
+    const stepConfig = buildStepTestConfig(Steps.DEVICES);
+    const stepResults = await executeStepWithDependencies(stepConfig);
+    expect({
+      ...stepResults,
+      // HACK: `@jupiterone/integration-sdk-testing`
+      // does not currently support `toMatchStepMetadata` with mapped
+      // relationships, which is causing tests to fail. We will add
+      // support soon and remove this hack.
+      collectedRelationships: filterDirectRelationships(
+        stepResults.collectedRelationships,
       ),
-    ).toMatchDirectRelationshipSchema({
-      schema: {
-        properties: {
-          _class: { const: RelationshipClass.HAS },
-          _type: { const: Relationships.HOST_AGENT_HAS_POLICY._type },
-        },
+    }).toMatchStepMetadata({
+      ...stepConfig,
+      invocationConfig: {
+        ...stepConfig.invocationConfig,
+        integrationSteps: stepConfig.invocationConfig.integrationSteps.map(
+          (s) => {
+            return {
+              ...s,
+              mappedRelationships: [],
+            };
+          },
+        ),
       },
     });
+  });
+});
+
+describe(Steps.BUILD_HOST_AGENT_HAS_POLICY_RELATIONSHIP, () => {
+  test('success', async () => {
+    recording = setupAddigyRecording({
+      directory: __dirname,
+      name: Steps.BUILD_HOST_AGENT_HAS_POLICY_RELATIONSHIP,
+      options: {
+        matchRequestsBy: {
+          url: {
+            hostname: false,
+          },
+        },
+        recordFailedRequests: false,
+      },
+    });
+
+    const stepConfig = buildStepTestConfig(
+      Steps.BUILD_HOST_AGENT_HAS_POLICY_RELATIONSHIP,
+    );
+    const stepResults = await executeStepWithDependencies(stepConfig);
+    expect(stepResults).toMatchStepMetadata(stepConfig);
   });
 });

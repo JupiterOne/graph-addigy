@@ -6,11 +6,22 @@ import {
   StepRelationshipMetadata,
 } from '@jupiterone/integration-sdk-core';
 
+export const USER_TO_POLICIES_DATA = 'user-to-policies-data';
+
+export const IngestionSources = {
+  POLICIES: 'policies',
+  DEVICES: 'devices',
+  USERS: 'users',
+};
+
 export const Steps = {
   USERS: 'fetch-users',
   DEVICES: 'fetch-devices',
   POLICIES: 'fetch-policies',
-  FETCH_POLICY_TO_POLICY_RELATIONSHIP: 'fetch-policy-to-policy-relationship',
+  BUILD_POLICY_TO_POLICY_RELATIONSHIP: 'build-policy-to-policy-relationship',
+  BUILD_HOST_AGENT_HAS_POLICY_RELATIONSHIP:
+    'build-host-agent-has-policy-relationship',
+  BUILD_USER_HAS_POLICY_RELATIONSHIP: 'build-user-has-policy-relationship',
 };
 
 export const Entities: Record<

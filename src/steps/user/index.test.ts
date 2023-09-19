@@ -1,25 +1,21 @@
-import { createMockStepExecutionContext } from '@jupiterone/integration-sdk-testing';
+import { buildStepTestConfig } from '../../../test/config';
+import { executeStepWithDependencies } from '@jupiterone/integration-sdk-testing';
+import { setupAddigyRecording, Recording } from '../../../test/recording';
+import { Steps } from '../../constants';
 
-import { Recording, setupAddigyRecording } from '../../../test/recording';
+let recording: Recording;
 
-import { integrationConfig } from '../../../test/config';
-
-import { fetchUsers } from '.';
-import { fetchPolicies } from '../policy';
-import { Relationships } from '../constants';
-import { RelationshipClass } from '@jupiterone/integration-sdk-core';
-
-describe('#fetchUsers', () => {
-  let recording: Recording;
-
-  afterEach(async () => {
+afterEach(async () => {
+  if (recording) {
     await recording.stop();
-  });
+  }
+});
 
-  test('should collect data', async () => {
+describe(Steps.USERS, () => {
+  test('success', async () => {
     recording = setupAddigyRecording({
       directory: __dirname,
-      name: 'fetchUsersShouldCollectData',
+      name: Steps.USERS,
       options: {
         matchRequestsBy: {
           url: {
@@ -30,41 +26,17 @@ describe('#fetchUsers', () => {
       },
     });
 
-    const context = createMockStepExecutionContext({
-      instanceConfig: integrationConfig,
-    });
-    await fetchUsers(context);
-
-    expect(context.jobState.collectedEntities?.length).toBeTruthy;
-    expect(context.jobState.collectedEntities).toMatchGraphObjectSchema({
-      _class: ['User'],
-      schema: {
-        additionalProperties: true,
-        properties: {
-          _type: { const: 'addigy_user' },
-          _key: { type: 'string' },
-          id: { type: 'string' },
-          name: { type: 'string' },
-          email: { type: 'string' },
-          username: { type: 'string' },
-          createdOn: { type: 'number' },
-          createdBy: { type: 'string' },
-          updatedOn: { type: 'number' },
-          updatedBy: { type: 'string' },
-          _rawData: {
-            type: 'array',
-            items: { type: 'object' },
-          },
-        },
-        required: [],
-      },
-    });
+    const stepConfig = buildStepTestConfig(Steps.USERS);
+    const stepResults = await executeStepWithDependencies(stepConfig);
+    expect(stepResults).toMatchStepMetadata(stepConfig);
   });
+});
 
-  test('should build user to policy relationship', async () => {
+describe(Steps.BUILD_USER_HAS_POLICY_RELATIONSHIP, () => {
+  test('success', async () => {
     recording = setupAddigyRecording({
       directory: __dirname,
-      name: 'fetchUsersShouldBuildPolicyRelationship',
+      name: Steps.BUILD_USER_HAS_POLICY_RELATIONSHIP,
       options: {
         matchRequestsBy: {
           url: {
@@ -75,27 +47,10 @@ describe('#fetchUsers', () => {
       },
     });
 
-    const context = createMockStepExecutionContext({
-      instanceConfig: integrationConfig,
-    });
-    await fetchPolicies(context);
-    await fetchUsers(context);
-
-    // Check that user to policy relationship was built
-    expect(context.jobState.collectedRelationships?.length).toBeTruthy;
-
-    // User to Policy relationship
-    expect(
-      context.jobState.collectedRelationships.filter(
-        (r) => r._type === Relationships.USER_HAS_POLICY._type,
-      ),
-    ).toMatchDirectRelationshipSchema({
-      schema: {
-        properties: {
-          _class: { const: RelationshipClass.HAS },
-          _type: { const: Relationships.USER_HAS_POLICY._type },
-        },
-      },
-    });
+    const stepConfig = buildStepTestConfig(
+      Steps.BUILD_USER_HAS_POLICY_RELATIONSHIP,
+    );
+    const stepResults = await executeStepWithDependencies(stepConfig);
+    expect(stepResults).toMatchStepMetadata(stepConfig);
   });
 });
