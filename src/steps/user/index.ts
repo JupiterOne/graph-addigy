@@ -17,12 +17,20 @@ import { createUserEntity } from './converter';
 import { createAPIClient } from '../../client';
 import { createPolicyEntityIdentifier } from '../policy/converter';
 
+type UserToPoliciesMapType = Map<string, string[] | null>;
+
+function isValidUserToPoliciesMap(
+  userToPoliciesMap: unknown,
+): userToPoliciesMap is UserToPoliciesMapType {
+  return !!userToPoliciesMap;
+}
+
 export async function fetchUsers({
   instance,
   jobState,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
-  const userToPoliciesMap = new Map<string, string[] | null>();
+  const userToPoliciesMap: UserToPoliciesMapType = new Map();
 
   await apiClient.iterateUsers(async (user) => {
     const userEntity = await jobState.addEntity(createUserEntity(user));
@@ -35,9 +43,11 @@ export async function fetchUsers({
 export async function buildUserHasPolicyRelationships({
   jobState,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
-  const userToPoliciesMap = (await jobState.getData(
-    USER_TO_POLICIES_DATA,
-  )) as Map<string, string[] | null>;
+  const userToPoliciesMap = await jobState.getData(USER_TO_POLICIES_DATA);
+
+  if (!isValidUserToPoliciesMap(userToPoliciesMap)) {
+    return;
+  }
 
   for (const [userKey, policies] of userToPoliciesMap) {
     if (!policies || !policies.length) {
