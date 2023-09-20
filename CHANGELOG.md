@@ -1,3 +1,15 @@
+# v2.0.1 (Wed Sep 20 2023)
+
+#### 🐛 Bug Fix
+
+- export ingestion config [#31](https://github.com/JupiterOne/graph-addigy/pull/31) (ronald.arias@contractor.jupiterone.com)
+
+#### Authors: 1
+
+- Ronald Arias ([@RonaldEAM](https://github.com/RonaldEAM))
+
+---
+
 # v2.0.0 (Tue Sep 19 2023)
 
 #### 💥 Breaking Change
