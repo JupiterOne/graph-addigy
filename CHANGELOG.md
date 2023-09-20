@@ -1,3 +1,15 @@
+# v2.0.2 (Wed Sep 20 2023)
+
+#### 🐛 Bug Fix
+
+- INT-8951 - validate userToPoliciesMap exists in memory [#32](https://github.com/JupiterOne/graph-addigy/pull/32) (ronald.arias@contractor.jupiterone.com)
+
+#### Authors: 1
+
+- Ronald Arias ([@RonaldEAM](https://github.com/RonaldEAM))
+
+---
+
 # v2.0.1 (Wed Sep 20 2023)
 
 #### 🐛 Bug Fix
