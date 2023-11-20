@@ -71,9 +71,6 @@ the CI/CD environment with `yarn test:ci` (adds linting and type-checking to
 `yarn test`). If you have a valid runtime configuration, you can run the tests
 with your credentials using `yarn test:env`.
 
-For more details on setting up tests, and specifically on using recordings to
-simulate API responses, see `test/README.md`.
-
 ### Changelog
 
 The history of this integration's development can be viewed at
